@@ -29,13 +29,19 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
+        let maxRatio = 0;
+        let mostVisibleId = activeSection;
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
+          if (entry.isIntersecting && entry.intersectionRatio > maxRatio) {
+            maxRatio = entry.intersectionRatio;
+            mostVisibleId = entry.target.id;
           }
         });
+        if (maxRatio > 0 && mostVisibleId !== activeSection) {
+          setActiveSection(mostVisibleId);
+        }
       },
-      { threshold: 0.6 }
+      { threshold: Array.from({ length: 21 }, (_, i) => i / 20) }
     );
 
     const sections = [
@@ -52,6 +58,7 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
     });
 
     return () => observer.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -172,7 +179,7 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
           <div
             className="desktop-nav"
             style={{
-              display: "flex",
+              display: "none", // Hide desktop nav on mobile
               gap: "0.5rem",
               alignItems: "center",
               background: "none",
@@ -194,16 +201,13 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 style={{
-                  background:
-                    activeSection === item.href.slice(1)
-                      ? "linear-gradient(135deg, #00d4ff 0%, #a855f7 100%)"
-                      : "transparent",
+                  background: "transparent", // Remove active highlight background
                   border: "none",
                   borderRadius: "1rem",
                   padding: "0.5rem 1rem",
                   color:
                     activeSection === item.href.slice(1)
-                      ? "#ffffff"
+                      ? "#43e97b" // Use mint/teal for active text
                       : "#e5e5e5",
                   fontWeight:
                     activeSection === item.href.slice(1) ? "600" : "500",
@@ -233,7 +237,7 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
             className="mobile-menu-btn"
             aria-label="Open navigation menu"
             style={{
-              display: "none",
+              display: "block", // Show hamburger on mobile
               background: "rgba(30, 30, 30, 0.6)",
               border: "1px solid rgba(60, 60, 60, 0.3)",
               borderRadius: "1rem",
@@ -300,7 +304,11 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
             opacity: isMenuOpen ? 1 : 0,
           }}
           transition={{ duration: 0.4, ease: "easeInOut" }}
-          style={{ overflow: "hidden", marginTop: "1rem" }}
+          style={{
+            overflow: "hidden",
+            marginTop: "1rem",
+            pointerEvents: isMenuOpen ? "auto" : "none",
+          }} // <-- add pointerEvents
         >
           <div
             style={{
@@ -316,7 +324,10 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
             {navItems.map((item, index) => (
               <motion.button
                 key={item.name}
-                onClick={() => handleNavClick(item.href)}
+                onClick={() => {
+                  setIsMenuOpen(false); // close menu first
+                  setTimeout(() => handleNavClick(item.href), 10); // then scroll
+                }}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{
                   opacity: isMenuOpen ? 1 : 0,
@@ -329,17 +340,14 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 style={{
-                  background:
-                    activeSection === item.href.slice(1)
-                      ? "linear-gradient(135deg, #00d4ff 0%, #a855f7 100%)"
-                      : "transparent",
+                  background: "transparent",
                   border: "none",
                   borderRadius: "1rem",
                   textAlign: "left",
                   padding: "1rem 1.25rem",
                   color:
                     activeSection === item.href.slice(1)
-                      ? "#ffffff"
+                      ? "#43e97b"
                       : "#e5e5e5",
                   fontWeight:
                     activeSection === item.href.slice(1) ? "600" : "500",
@@ -357,16 +365,18 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
         {/* Animated Progress Bar */}
         <motion.div
           style={{
-            position: "absolute",
-            bottom: 0,
+            position: "fixed", // changed from absolute to fixed
             left: 0,
             right: 0,
+            bottom: 0,
+            width: "100dvw", // ensure full viewport width
             height: "3px",
             background:
               "linear-gradient(90deg, #14e0c7 0%, #43e97b 50%, #38f9d7 100%)", // turquoise, mint, teal
             borderRadius: "0 0 2rem 2rem",
             transformOrigin: "0%",
             scaleX: scrollProgress,
+            zIndex: 1100, // above navbar
           }}
         />
       </div>
