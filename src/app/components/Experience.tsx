@@ -84,7 +84,7 @@ export default function Experience() {
               margin: "0 auto",
             }}
           >
-            My professional journey and the impact I've made along the way
+            My professional journey and the impact I&apos;ve made along the way
           </p>
         </motion.div>
 

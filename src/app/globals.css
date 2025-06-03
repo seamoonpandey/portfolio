@@ -13,8 +13,8 @@
   --border-medium: #d6d3d1;     /* Medium borders */
   
   /* Accent colors for special touches */
-  --accent-blue: #3b82f6;       /* Subtle blue */
-  --accent-emerald: #10b981;    /* Subtle green */
+  --accent-blue: #14e0c7;       /* Turquoise/teal (replaces blue) */
+  --accent-emerald: #43e97b;    /* Mint/emerald (for green accent) */
   --accent-amber: #f59e0b;      /* Subtle amber */
   
   /* Shadows */
@@ -37,8 +37,8 @@
   --border-medium: #44403c;     /* Medium dark borders */
   
   /* Accent colors remain the same but slightly adjusted for dark theme */
-  --accent-blue: #60a5fa;       /* Lighter blue for dark theme */
-  --accent-emerald: #34d399;    /* Lighter green for dark theme */
+  --accent-blue: #38f9d7;       /* Lighter turquoise/teal for dark theme */
+  --accent-emerald: #43e97b;    /* Mint/emerald */
   --accent-amber: #fbbf24;      /* Lighter amber for dark theme */
   
   /* Shadows for dark theme */
@@ -139,6 +139,7 @@ a:hover {
   box-shadow: var(--shadow-md);
 }
 
+/* Update button accent color for turquoise/mint/teal */
 .btn-accent {
   background-color: var(--accent-blue);
   color: white;
@@ -361,8 +362,8 @@ input:focus, textarea:focus, select:focus {
     --border-light: #292524;
     --border-medium: #44403c;
     
-    --accent-blue: #60a5fa;
-    --accent-emerald: #34d399;
+    --accent-blue: #38f9d7;
+    --accent-emerald: #43e97b;
     --accent-amber: #fbbf24;
     
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);

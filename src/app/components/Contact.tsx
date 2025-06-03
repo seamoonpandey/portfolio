@@ -96,8 +96,8 @@ export default function Contact() {
               margin: "0 auto",
             }}
           >
-            Have a project in mind or just want to say hello? I'd love to hear
-            from you!
+            Have a project in mind or just want to say hello? I&apos;d love to
+            hear from you!
           </p>
         </motion.div>
 
@@ -122,7 +122,7 @@ export default function Contact() {
                 marginBottom: "2rem",
               }}
             >
-              Let's start a conversation
+              Let&apos;s start a conversation
             </h3>
 
             <p
@@ -132,7 +132,7 @@ export default function Contact() {
                 lineHeight: "1.7",
               }}
             >
-              I'm always interested in hearing about new opportunities,
+              I&apos;m always interested in hearing about new opportunities,
               interesting projects, or just having a chat about technology and
               design.
             </p>
@@ -262,7 +262,7 @@ export default function Contact() {
                   Message Sent!
                 </h3>
                 <p style={{ color: "var(--text-secondary)" }}>
-                  Thank you for reaching out. I'll get back to you soon!
+                  Thank you for reaching out. I&apos;ll get back to you soon!
                 </p>
               </motion.div>
             ) : (

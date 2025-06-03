@@ -41,7 +41,7 @@ export default function Skills() {
   const getCategoryColor = (category: string) => {
     switch (category) {
       case "Frontend":
-        return "var(--accent-blue)";
+        return "var(--accent-blue)"; // Now turquoise/teal/mint
       case "Backend":
         return "var(--accent-emerald)";
       case "Tools":

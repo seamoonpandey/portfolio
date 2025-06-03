@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 
 interface Stat {
@@ -79,10 +79,10 @@ export default function About() {
                 lineHeight: "1.7",
               }}
             >
-              I'm a passionate full-stack developer with a keen eye for design
-              and a love for creating seamless digital experiences. With over 3
-              years of experience in web development, I specialize in modern
-              JavaScript frameworks and responsive design.
+              I&apos;m a passionate full-stack developer with a keen eye for
+              design and a love for creating seamless digital experiences. With
+              over 3 years of experience in web development, I specialize in
+              modern JavaScript frameworks and responsive design.
             </p>
 
             <p
@@ -93,9 +93,9 @@ export default function About() {
                 lineHeight: "1.7",
               }}
             >
-              When I'm not coding, you can find me exploring new technologies,
-              contributing to open-source projects, or enjoying a good cup of
-              coffee while sketching out my next big idea.
+              When I&apos;m not coding, you can find me exploring new
+              technologies, contributing to open-source projects, or enjoying a
+              good cup of coffee while sketching out my next big idea.
             </p>
 
             <motion.a
@@ -104,7 +104,7 @@ export default function About() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              Let's Work Together
+              Let&apos;s Work Together
             </motion.a>
           </motion.div>
 

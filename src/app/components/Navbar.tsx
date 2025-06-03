@@ -363,7 +363,7 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
             right: 0,
             height: "3px",
             background:
-              "linear-gradient(90deg, #00d4ff 0%, #a855f7 50%, #f59e0b 100%)",
+              "linear-gradient(90deg, #14e0c7 0%, #43e97b 50%, #38f9d7 100%)", // turquoise, mint, teal
             borderRadius: "0 0 2rem 2rem",
             transformOrigin: "0%",
             scaleX: scrollProgress,
