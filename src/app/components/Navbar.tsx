@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, MotionValue } from "framer-motion";
 
 interface NavItem {
@@ -15,6 +15,7 @@ interface NavbarProps {
 export default function Navbar({ scrollProgress }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   const navItems: NavItem[] = [
     { name: "Home", href: "#home" },
@@ -52,6 +53,27 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
 
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    if (!isMenuOpen) return;
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setIsMenuOpen(false);
+    }
+    function handleClickOutside(e: MouseEvent) {
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(e.target as Node)
+      ) {
+        setIsMenuOpen(false);
+      }
+    }
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMenuOpen]);
 
   const handleNavClick = (href: string) => {
     const element = document.querySelector(href);
@@ -256,6 +278,7 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
         {/* Mobile Menu */}
         <motion.div
           className="mobile-menu"
+          ref={mobileMenuRef}
           initial={{ height: 0, opacity: 0 }}
           animate={{
             height: isMenuOpen ? "auto" : 0,
