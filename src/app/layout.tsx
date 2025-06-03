@@ -24,7 +24,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable}`}
+        style={
+          {
+            "--font-geist-sans": geistSans.style.fontFamily,
+            "--font-geist-mono": geistMono.style.fontFamily,
+          } as React.CSSProperties
+        }
+      >
         {children}
       </body>
     </html>
