@@ -236,3 +236,47 @@ input:focus, textarea:focus, select:focus {
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.3);
   }
 }
+
+/* Modern Dark Navbar Styles */
+nav[data-theme-aware] {
+  background: linear-gradient(135deg, rgba(20, 20, 20, 0.9) 0%, rgba(25, 25, 25, 0.85) 100%) !important;
+  border: 1px solid rgba(60, 60, 60, 0.4) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(80, 80, 80, 0.2) !important;
+}
+
+/* Navbar Responsive Styles */
+.desktop-nav {
+  display: flex !important;
+}
+
+.mobile-menu-btn {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .desktop-nav {
+    display: none !important;
+  }
+  
+  .mobile-menu-btn {
+    display: flex !important;
+  }
+}
+
+/* Section spacing to account for fixed navbar */
+section {
+  position: relative;
+}
+
+section:first-child {
+  padding-top: 0;
+}
+
+section:not(:first-child) {
+  padding-top: 2rem;
+}
+
+/* Ensure proper scrolling with navbar */
+html {
+  scroll-padding-top: 6rem;
+}

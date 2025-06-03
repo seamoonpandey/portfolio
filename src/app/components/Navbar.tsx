@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, MotionValue } from "framer-motion";
 
 interface NavItem {
   name: string;
@@ -9,7 +9,7 @@ interface NavItem {
 }
 
 interface NavbarProps {
-  scrollProgress: any;
+  scrollProgress: MotionValue<number>;
 }
 
 export default function Navbar({ scrollProgress }: NavbarProps) {
@@ -37,8 +37,16 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
       { threshold: 0.6 }
     );
 
-    navItems.forEach((item) => {
-      const element = document.querySelector(item.href);
+    const sections = [
+      "home",
+      "about",
+      "skills",
+      "experience",
+      "projects",
+      "contact",
+    ];
+    sections.forEach((sectionId) => {
+      const element = document.querySelector(`#${sectionId}`);
       if (element) observer.observe(element);
     });
 
@@ -55,22 +63,35 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
 
   return (
     <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
       style={{
         position: "fixed",
-        top: 0,
+        top: 0, // flush with top
         left: 0,
         right: 0,
-        zIndex: 50,
-        backgroundColor: "rgba(250, 250, 249, 0.9)",
-        backdropFilter: "blur(10px)",
-        borderBottom: "1px solid var(--border-light)",
+        width: "100%",
+        zIndex: 1000,
+        background:
+          "linear-gradient(135deg, rgba(20, 20, 20, 0.9) 0%, rgba(25, 25, 25, 0.85) 100%)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
+        border: "1px solid rgba(60, 60, 60, 0.4)",
+        boxShadow:
+          "0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(80, 80, 80, 0.2)",
       }}
+      data-theme-aware
     >
       <div
-        style={{ maxWidth: "1200px", margin: "0 auto", padding: "1rem 2rem" }}
+        style={{
+          maxWidth: "800px",
+          margin: "0 auto",
+          padding: "0.75rem 2rem",
+          borderRadius: "2rem",
+          display: "flex",
+          flexDirection: "column",
+        }}
       >
         <div
           style={{
@@ -82,18 +103,34 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
           {/* Logo */}
           <motion.div
             whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             style={{
-              fontWeight: "bold",
+              fontWeight: "800",
               fontSize: "1.5rem",
-              color: "var(--accent-blue)",
+              background:
+                "linear-gradient(135deg, #00d4ff 0%, #a855f7 50%, #f59e0b 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+              letterSpacing: "-0.02em",
+              cursor: "pointer",
             }}
+            onClick={() => handleNavClick("#home")}
           >
             Seamoon
           </motion.div>
 
           {/* Desktop Navigation */}
           <div
-            style={{ display: "none", gap: "2rem", alignItems: "center" }}
+            style={{
+              display: "flex",
+              gap: "0.5rem",
+              alignItems: "center",
+              background: "rgba(30, 30, 30, 0.6)",
+              borderRadius: "1.5rem",
+              padding: "0.5rem",
+              border: "1px solid rgba(60, 60, 60, 0.3)",
+            }}
             className="desktop-nav"
           >
             {navItems.map((item) => (
@@ -103,16 +140,26 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 style={{
-                  background: "none",
+                  background:
+                    activeSection === item.href.slice(1)
+                      ? "linear-gradient(135deg, #00d4ff 0%, #a855f7 100%)"
+                      : "transparent",
                   border: "none",
+                  borderRadius: "1rem",
+                  padding: "0.5rem 1rem",
                   color:
                     activeSection === item.href.slice(1)
-                      ? "var(--accent-blue)"
-                      : "var(--text-secondary)",
+                      ? "#ffffff"
+                      : "#e5e5e5",
                   fontWeight:
-                    activeSection === item.href.slice(1) ? "600" : "400",
+                    activeSection === item.href.slice(1) ? "600" : "500",
+                  fontSize: "0.875rem",
                   cursor: "pointer",
-                  transition: "color 0.3s ease",
+                  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                  position: "relative",
+                  overflow: "hidden",
+                  minWidth: "fit-content",
+                  whiteSpace: "nowrap",
                 }}
               >
                 {item.name}
@@ -121,52 +168,66 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
           </div>
 
           {/* Mobile Menu Button */}
-          <button
+          <motion.button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             style={{
-              display: "block",
-              background: "none",
-              border: "none",
+              display: "none",
+              background: "rgba(30, 30, 30, 0.6)",
+              border: "1px solid rgba(60, 60, 60, 0.3)",
+              borderRadius: "1rem",
               cursor: "pointer",
-              padding: "0.5rem",
+              padding: "0.75rem",
             }}
             className="mobile-menu-btn"
           >
             <div
-              style={{ display: "flex", flexDirection: "column", gap: "4px" }}
+              style={{ display: "flex", flexDirection: "column", gap: "3px" }}
             >
               <motion.div
-                animate={{ rotate: isMenuOpen ? 45 : 0, y: isMenuOpen ? 8 : 0 }}
+                animate={{
+                  rotate: isMenuOpen ? 45 : 0,
+                  y: isMenuOpen ? 6 : 0,
+                  backgroundColor: isMenuOpen ? "#00d4ff" : "#e5e5e5",
+                }}
                 style={{
-                  width: "24px",
+                  width: "20px",
                   height: "2px",
-                  backgroundColor: "var(--text-primary)",
-                  transition: "all 0.3s ease",
+                  backgroundColor: "#e5e5e5",
+                  borderRadius: "1px",
+                  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                 }}
               />
               <motion.div
-                animate={{ opacity: isMenuOpen ? 0 : 1 }}
+                animate={{
+                  opacity: isMenuOpen ? 0 : 1,
+                  backgroundColor: isMenuOpen ? "#00d4ff" : "#e5e5e5",
+                }}
                 style={{
-                  width: "24px",
+                  width: "20px",
                   height: "2px",
-                  backgroundColor: "var(--text-primary)",
-                  transition: "all 0.3s ease",
+                  backgroundColor: "#e5e5e5",
+                  borderRadius: "1px",
+                  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                 }}
               />
               <motion.div
                 animate={{
                   rotate: isMenuOpen ? -45 : 0,
-                  y: isMenuOpen ? -8 : 0,
+                  y: isMenuOpen ? -6 : 0,
+                  backgroundColor: isMenuOpen ? "#00d4ff" : "#e5e5e5",
                 }}
                 style={{
-                  width: "24px",
+                  width: "20px",
                   height: "2px",
-                  backgroundColor: "var(--text-primary)",
-                  transition: "all 0.3s ease",
+                  backgroundColor: "#e5e5e5",
+                  borderRadius: "1px",
+                  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                 }}
               />
             </div>
-          </button>
+          </motion.button>
         </div>
 
         {/* Mobile Menu */}
@@ -176,35 +237,53 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
             height: isMenuOpen ? "auto" : 0,
             opacity: isMenuOpen ? 1 : 0,
           }}
-          transition={{ duration: 0.3 }}
-          style={{ overflow: "hidden" }}
+          transition={{ duration: 0.4, ease: "easeInOut" }}
+          style={{ overflow: "hidden", marginTop: "1rem" }}
         >
           <div
             style={{
               display: "flex",
               flexDirection: "column",
-              gap: "1rem",
-              paddingTop: "1rem",
+              gap: "0.5rem",
+              background: "rgba(30, 30, 30, 0.8)",
+              borderRadius: "1.5rem",
+              padding: "1rem",
+              border: "1px solid rgba(60, 60, 60, 0.3)",
             }}
           >
-            {navItems.map((item) => (
+            {navItems.map((item, index) => (
               <motion.button
                 key={item.name}
                 onClick={() => handleNavClick(item.href)}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{
+                  opacity: isMenuOpen ? 1 : 0,
+                  x: isMenuOpen ? 0 : -20,
+                }}
+                transition={{
+                  duration: 0.3,
+                  delay: isMenuOpen ? index * 0.05 : 0,
+                }}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 style={{
-                  background: "none",
+                  background:
+                    activeSection === item.href.slice(1)
+                      ? "linear-gradient(135deg, #00d4ff 0%, #a855f7 100%)"
+                      : "transparent",
                   border: "none",
+                  borderRadius: "1rem",
                   textAlign: "left",
-                  padding: "0.5rem 0",
+                  padding: "1rem 1.25rem",
                   color:
                     activeSection === item.href.slice(1)
-                      ? "var(--accent-blue)"
-                      : "var(--text-secondary)",
+                      ? "#ffffff"
+                      : "#e5e5e5",
                   fontWeight:
-                    activeSection === item.href.slice(1) ? "600" : "400",
+                    activeSection === item.href.slice(1) ? "600" : "500",
+                  fontSize: "0.95rem",
                   cursor: "pointer",
+                  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                 }}
               >
                 {item.name}
@@ -214,15 +293,17 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
         </motion.div>
       </div>
 
-      {/* Progress Bar */}
+      {/* Animated Progress Bar */}
       <motion.div
         style={{
           position: "absolute",
           bottom: 0,
           left: 0,
           right: 0,
-          height: "2px",
-          backgroundColor: "var(--accent-blue)",
+          height: "3px",
+          background:
+            "linear-gradient(90deg, #00d4ff 0%, #a855f7 50%, #f59e0b 100%)",
+          borderRadius: "0 0 2rem 2rem",
           transformOrigin: "0%",
           scaleX: scrollProgress,
         }}
