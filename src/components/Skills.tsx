@@ -1,7 +1,61 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import Marquee from "react-fast-marquee";
+import {
+  SiReact,
+  SiNextdotjs,
+  SiTypescript,
+  SiJavascript,
+  SiHtml5,
+  SiNodedotjs,
+  SiExpress,
+  SiPython,
+  SiPostgresql,
+  SiMongodb,
+  SiGit,
+  SiDocker,
+  SiFigma,
+} from "react-icons/si";
+import { BsAmazon } from "react-icons/bs";
+
+const getSkillIcon = (skillName: string) => {
+  const iconProps = { size: 28 };
+
+  switch (skillName) {
+    case "React":
+      return <SiReact {...iconProps} />;
+    case "Next.js":
+      return <SiNextdotjs {...iconProps} />;
+    case "TypeScript":
+      return <SiTypescript {...iconProps} />;
+    case "JavaScript":
+      return <SiJavascript {...iconProps} />;
+    case "HTML/CSS":
+      return <SiHtml5 {...iconProps} />;
+    case "Node.js":
+      return <SiNodedotjs {...iconProps} />;
+    case "Express":
+      return <SiExpress {...iconProps} />;
+    case "Python":
+      return <SiPython {...iconProps} />;
+    case "PostgreSQL":
+      return <SiPostgresql {...iconProps} />;
+    case "MongoDB":
+      return <SiMongodb {...iconProps} />;
+    case "Git":
+      return <SiGit {...iconProps} />;
+    case "Docker":
+      return <SiDocker {...iconProps} />;
+    case "AWS":
+      return <BsAmazon {...iconProps} />;
+    case "Figma":
+      return <SiFigma {...iconProps} />;
+    default:
+      return <SiReact {...iconProps} />;
+  }
+};
 
 interface Skill {
   name: string;
@@ -12,7 +66,6 @@ interface Skill {
 export default function Skills() {
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, amount: 0.2 });
-  const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
 
   const skills: Skill[] = [
     // Frontend
@@ -36,19 +89,35 @@ export default function Skills() {
     { name: "Figma", level: 85, category: "Tools" },
   ];
 
-  const categories = ["Frontend", "Backend", "Tools"];
+  const skillNames = skills.map((s) => s.name);
 
-  const getCategoryColor = (category: string) => {
-    switch (category) {
-      case "Frontend":
-        return "var(--accent-blue)"; // Now turquoise/teal/mint
-      case "Backend":
-        return "var(--accent-emerald)";
-      case "Tools":
-        return "var(--accent-amber)";
-      default:
-        return "var(--text-secondary)";
-    }
+  // Three rows
+  const numRows = 3;
+  const iconsPerRow = Math.ceil(skillNames.length / numRows);
+  const rows = Array.from({ length: numRows }, (_, i) =>
+    skillNames.slice(i * iconsPerRow, (i + 1) * iconsPerRow)
+  );
+
+  // Individual color mapping for each skill
+  const skillColors: Record<string, string> = {
+    React: "rgba(97, 218, 251, 0.25)", // React blue - brighter
+    "Next.js": "rgba(255, 255, 255, 0.2)", // White/gray - brighter
+    TypeScript: "rgba(49, 120, 198, 0.25)", // TypeScript blue - brighter
+    JavaScript: "rgba(247, 223, 30, 0.25)", // JavaScript yellow - brighter
+    "HTML/CSS": "rgba(227, 79, 38, 0.25)", // HTML orange - brighter
+    "Node.js": "rgba(104, 160, 99, 0.25)", // Node green - brighter
+    Express: "rgba(68, 68, 68, 0.25)", // Express gray - brighter
+    Python: "rgba(55, 118, 171, 0.25)", // Python blue - brighter
+    PostgreSQL: "rgba(51, 103, 145, 0.25)", // PostgreSQL blue - brighter
+    MongoDB: "rgba(71, 162, 72, 0.25)", // MongoDB green - brighter
+    Git: "rgba(240, 80, 50, 0.25)", // Git orange - brighter
+    Docker: "rgba(33, 150, 243, 0.25)", // Docker blue - brighter
+    AWS: "rgba(255, 153, 0, 0.25)", // AWS orange - brighter
+    Figma: "rgba(162, 89, 255, 0.25)", // Figma purple - brighter
+  };
+
+  const getSkillColor = (skillName: string) => {
+    return skillColors[skillName] || "rgba(100, 100, 100, 0.15)";
   };
 
   return (
@@ -86,106 +155,74 @@ export default function Skills() {
           </p>
         </motion.div>
 
+        {/* Multi-line marquee, 3 rows, alternating directions */}
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-            gap: "3rem",
+            width: "100%",
+            margin: "0 auto 3rem",
+            minHeight: 240,
+            display: "flex",
+            flexDirection: "column",
+            gap: 8,
           }}
         >
-          {categories.map((category, categoryIndex) => (
-            <motion.div
-              key={category}
-              className="card"
-              style={{ padding: "2rem" }}
-              initial={{ opacity: 0, y: 50 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: categoryIndex * 0.2 }}
-            >
-              <h3
+          {rows.map((row, rowIdx) => {
+            const isReverse = rowIdx % 2 === 1;
+            return (
+              <Marquee
+                key={rowIdx}
+                direction={isReverse ? "right" : "left"}
+                speed={30}
+                pauseOnHover={true}
+                gradient={true}
+                gradientColor="var(--bg-secondary)"
+                gradientWidth={60}
                 style={{
-                  fontSize: "1.5rem",
-                  fontWeight: "600",
-                  marginBottom: "1.5rem",
-                  color: getCategoryColor(category),
+                  ...(rowIdx === 1 ? { marginLeft: 40 } : {}),
+                  minHeight: 70,
                 }}
               >
-                {category}
-              </h3>
-
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "1rem",
-                }}
-              >
-                {skills
-                  .filter((skill) => skill.category === category)
-                  .map((skill, index) => (
-                    <motion.div
-                      key={skill.name}
-                      onMouseEnter={() => setHoveredSkill(skill.name)}
-                      onMouseLeave={() => setHoveredSkill(null)}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={isInView ? { opacity: 1, x: 0 } : {}}
-                      transition={{
-                        duration: 0.6,
-                        delay: categoryIndex * 0.2 + index * 0.1,
+                {/* Duplicate the row multiple times for seamless infinite scroll */}
+                {[...row, ...row, ...row].map((name, i) => (
+                  <div
+                    key={name + i + rowIdx}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      background: getSkillColor(name),
+                      borderRadius: "1rem",
+                      padding: "0.75rem 2.2rem 0.75rem 1.2rem",
+                      minWidth: 110,
+                      boxShadow: "0 2px 12px rgba(0,0,0,0.1)",
+                      border: "1px solid rgba(255,255,255,0.1)",
+                      color: "#fff",
+                      fontWeight: 500,
+                      fontSize: 17,
+                      gap: 12,
+                      marginRight: 16,
+                      transition: "all 0.3s ease",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                      backdropFilter: "blur(10px)",
+                    }}
+                  >
+                    <div
+                      style={{
+                        marginRight: 12,
+                        flexShrink: 0,
+                        display: "flex",
+                        alignItems: "center",
                       }}
                     >
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                          marginBottom: "0.5rem",
-                        }}
-                      >
-                        <span style={{ fontWeight: "500" }}>{skill.name}</span>
-                        <span
-                          style={{
-                            fontSize: "0.875rem",
-                            color: "var(--text-tertiary)",
-                            fontWeight: "500",
-                          }}
-                        >
-                          {skill.level}%
-                        </span>
-                      </div>
-
-                      <div
-                        style={{
-                          width: "100%",
-                          height: "8px",
-                          backgroundColor: "var(--bg-tertiary)",
-                          borderRadius: "4px",
-                          overflow: "hidden",
-                        }}
-                      >
-                        <motion.div
-                          style={{
-                            height: "100%",
-                            backgroundColor: getCategoryColor(category),
-                            borderRadius: "4px",
-                          }}
-                          initial={{ width: 0 }}
-                          animate={isInView ? { width: `${skill.level}%` } : {}}
-                          transition={{
-                            duration: 1,
-                            delay: categoryIndex * 0.2 + index * 0.1 + 0.5,
-                            ease: "easeOut",
-                          }}
-                          whileHover={{
-                            opacity: hoveredSkill === skill.name ? 0.8 : 1,
-                          }}
-                        />
-                      </div>
-                    </motion.div>
-                  ))}
-              </div>
-            </motion.div>
-          ))}
+                      {getSkillIcon(name)}
+                    </div>
+                    {name}
+                  </div>
+                ))}
+              </Marquee>
+            );
+          })}
         </div>
 
         {/* Additional Skills Tags */}
