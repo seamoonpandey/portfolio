@@ -12,7 +12,7 @@ export default function ParticleBackground() {
 
   const particles = useMemo(() => {
     if (!isClient) return [];
-    
+
     return Array.from({ length: 50 }, (_, i) => ({
       id: i,
       x: Math.random() * 100,

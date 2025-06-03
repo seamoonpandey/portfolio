@@ -49,7 +49,7 @@ function TypewriterText({ texts }: TypewriterTextProps) {
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isClient, setIsClient] = useState(false);
-  
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
@@ -63,7 +63,7 @@ export default function Hero() {
 
   useEffect(() => {
     setIsClient(true);
-    
+
     const updateMousePosition = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
