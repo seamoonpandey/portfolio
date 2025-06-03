@@ -68,7 +68,7 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
       transition={{ duration: 0.8, ease: "easeOut" }}
       style={{
         position: "fixed",
-        top: 0, // flush with top
+        top: 0,
         left: 0,
         right: 0,
         width: "100%",
@@ -77,9 +77,12 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
           "linear-gradient(135deg, rgba(20, 20, 20, 0.9) 0%, rgba(25, 25, 25, 0.85) 100%)",
         backdropFilter: "blur(20px)",
         WebkitBackdropFilter: "blur(20px)",
-        border: "1px solid rgba(60, 60, 60, 0.4)",
         boxShadow:
           "0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(80, 80, 80, 0.2)",
+        border: "none",
+        minHeight: "64px",
+        display: "flex",
+        alignItems: "center",
       }}
       data-theme-aware
     >
@@ -87,21 +90,30 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
         style={{
           maxWidth: "800px",
           margin: "0 auto",
-          padding: "0.75rem 2rem",
+          width: "100%",
           borderRadius: "2rem",
           display: "flex",
-          flexDirection: "column",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "2rem",
+          minHeight: "64px",
+          padding: 0,
         }}
       >
+        {/* Responsive container for logo, nav, and hamburger */}
         <div
+          className="mobile-header"
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
+            width: "100%",
           }}
         >
           {/* Logo */}
           <motion.div
+            className="logo"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             style={{
@@ -114,6 +126,10 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
               backgroundClip: "text",
               letterSpacing: "-0.02em",
               cursor: "pointer",
+              lineHeight: 1,
+              display: "flex",
+              alignItems: "center",
+              height: "40px",
             }}
             onClick={() => handleNavClick("#home")}
           >
@@ -126,10 +142,12 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
               display: "flex",
               gap: "0.5rem",
               alignItems: "center",
-              background: "rgba(30, 30, 30, 0.6)",
-              borderRadius: "1.5rem",
-              padding: "0.5rem",
-              border: "1px solid rgba(60, 60, 60, 0.3)",
+              background: "none",
+              borderRadius: 0,
+              padding: 0,
+              border: "none",
+              boxShadow: "none",
+              height: "40px",
             }}
             className="desktop-nav"
           >
@@ -160,6 +178,10 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
                   overflow: "hidden",
                   minWidth: "fit-content",
                   whiteSpace: "nowrap",
+                  lineHeight: 1.2,
+                  height: "40px",
+                  display: "flex",
+                  alignItems: "center",
                 }}
               >
                 {item.name}
@@ -181,6 +203,7 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
               padding: "0.75rem",
             }}
             className="mobile-menu-btn"
+            aria-label="Open navigation menu"
           >
             <div
               style={{ display: "flex", flexDirection: "column", gap: "3px" }}
@@ -232,6 +255,7 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
 
         {/* Mobile Menu */}
         <motion.div
+          className="mobile-menu"
           initial={{ height: 0, opacity: 0 }}
           animate={{
             height: isMenuOpen ? "auto" : 0,
@@ -291,23 +315,23 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
             ))}
           </div>
         </motion.div>
-      </div>
 
-      {/* Animated Progress Bar */}
-      <motion.div
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: "3px",
-          background:
-            "linear-gradient(90deg, #00d4ff 0%, #a855f7 50%, #f59e0b 100%)",
-          borderRadius: "0 0 2rem 2rem",
-          transformOrigin: "0%",
-          scaleX: scrollProgress,
-        }}
-      />
+        {/* Animated Progress Bar */}
+        <motion.div
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: "3px",
+            background:
+              "linear-gradient(90deg, #00d4ff 0%, #a855f7 50%, #f59e0b 100%)",
+            borderRadius: "0 0 2rem 2rem",
+            transformOrigin: "0%",
+            scaleX: scrollProgress,
+          }}
+        />
+      </div>
     </motion.nav>
   );
 }
