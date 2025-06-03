@@ -105,12 +105,14 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
         minHeight: "64px",
         display: "flex",
         alignItems: "center",
+        padding: 0,
       }}
       data-theme-aware
     >
       <div
+        className="navbar-inner"
         style={{
-          maxWidth: "800px",
+          maxWidth: "900px",
           margin: "0 auto",
           width: "100%",
           borderRadius: "2rem",
@@ -118,9 +120,12 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",
-          gap: "2rem",
+          gap: "0", // Remove gap here, spacing will be handled inside mobile-header
           minHeight: "64px",
-          padding: 0,
+          padding: "0 1.5rem",
+          boxSizing: "border-box",
+          flex: 1,
+          position: "relative",
         }}
       >
         {/* Responsive container for logo, nav, and hamburger */}
@@ -129,8 +134,11 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
           style={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between",
+            justifyContent: "center", // Center all contents horizontally
             width: "100%",
+            minWidth: 0,
+            gap: "2.5rem", // Add spacing between logo and nav
+            position: "relative",
           }}
         >
           {/* Logo */}
@@ -152,6 +160,8 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
               display: "flex",
               alignItems: "center",
               height: "40px",
+              minWidth: "90px",
+              marginRight: "2.5rem", // Add margin to separate logo from nav
             }}
             onClick={() => handleNavClick("#home")}
           >
@@ -160,6 +170,7 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
 
           {/* Desktop Navigation */}
           <div
+            className="desktop-nav"
             style={{
               display: "flex",
               gap: "0.5rem",
@@ -170,8 +181,11 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
               border: "none",
               boxShadow: "none",
               height: "40px",
+              margin: "0 auto", // center nav between logo and hamburger
+              flex: 1,
+              justifyContent: "center",
+              minWidth: 0,
             }}
-            className="desktop-nav"
           >
             {navItems.map((item) => (
               <motion.button
@@ -216,6 +230,8 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            className="mobile-menu-btn"
+            aria-label="Open navigation menu"
             style={{
               display: "none",
               background: "rgba(30, 30, 30, 0.6)",
@@ -223,9 +239,8 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
               borderRadius: "1rem",
               cursor: "pointer",
               padding: "0.75rem",
+              marginLeft: "auto", // push hamburger to far right
             }}
-            className="mobile-menu-btn"
-            aria-label="Open navigation menu"
           >
             <div
               style={{ display: "flex", flexDirection: "column", gap: "3px" }}
