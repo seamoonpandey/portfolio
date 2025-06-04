@@ -135,7 +135,6 @@ export const projects: Project[] = [
             "A multiplayer gaming platform featuring real-time gameplay and user management. Developed collaboratively with @shishirrijal, it combines a Flutter frontend with a Ruby on Rails API backend to deliver an engaging gaming experience.",
         technologies: [
             "Flutter",
-            "Ruby on Rails",
             "API",
             "Real-time",
             "Collaboration",

@@ -206,6 +206,49 @@ a:hover {
   border-color: rgba(20, 224, 199, 0.3);
 }
 
+/* Project Grid Responsive Styles */
+.projects-grid {
+  display: grid;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.projects-grid.single-item {
+  grid-template-columns: 1fr;
+  max-width: 400px;
+  margin: 0 auto 3rem;
+}
+
+.projects-grid.multiple-items {
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .projects-grid.single-item {
+    max-width: 100%;
+    margin: 0 0 2rem 0;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .projects-grid.multiple-items {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+
+@media (min-width: 1025px) {
+  .projects-grid.multiple-items {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    max-width: 1200px;
+  }
+}
+
 /* Typography */
 h1, h2, h3, h4, h5, h6 {
   color: var(--text-primary);

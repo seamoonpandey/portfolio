@@ -221,6 +221,10 @@ export default function Projects() {
             gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
             gap: "1.5rem",
             marginBottom: "3rem",
+            maxWidth: filteredProjects.length === 1 ? "400px" : "100%",
+            margin:
+              filteredProjects.length === 1 ? "0 auto 3rem" : "0 0 3rem 0",
+            justifyContent: "center",
           }}
         >
           {filteredProjects.map((project, index) => (
@@ -238,6 +242,8 @@ export default function Projects() {
                 cursor: "pointer",
                 transformStyle: "preserve-3d",
                 perspective: "1000px",
+                maxWidth: filteredProjects.length === 1 ? "400px" : "none",
+                width: "100%",
               }}
               initial={{ opacity: 0, y: 80, rotateX: 45 }}
               animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
