@@ -256,8 +256,9 @@ export default function Projects() {
                 cursor: "pointer",
                 transformStyle: "preserve-3d",
                 perspective: "1000px",
-                maxWidth: displayedProjects.length === 1 ? "400px" : "none",
+                maxWidth: "400px", // Constrain card width
                 width: "100%",
+                margin: "0 auto", // Center cards when constrained
               }}
               initial={{ opacity: 0, y: 80, rotateX: 45 }}
               animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
