@@ -14,6 +14,7 @@ import {
   getCategoryEmoji,
   type Project,
 } from "@/data/projects";
+import Image from "next/image";
 
 export default function Projects() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -258,31 +259,63 @@ export default function Projects() {
               }}
               onMouseEnter={() => setActiveProject(index)}
             >
-              {/* Project Image with Overlay */}
+              {/* Updated image section */}
               <div
                 style={{
                   width: "100%",
-                  height: "160px",
+                  height: "200px",
                   position: "relative",
                   overflow: "hidden",
                   background:
                     "linear-gradient(135deg, var(--accent-blue), var(--accent-emerald))",
                 }}
               >
+                {/* Project Image */}
+                {project.image && !project.image.includes("placeholder") ? (
+                  <Image
+                    width={800}
+                    height={400}
+                    src={project.image}
+                    alt={project.title}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                    }}
+                    onError={(e) => {
+                      // Fallback to gradient if image fails to load
+                      e.currentTarget.style.display = "none";
+                    }}
+                  />
+                ) : null}
+
+                {/* Overlay with emoji and status */}
                 <motion.div
                   style={{
                     position: "absolute",
                     inset: 0,
                     background:
-                      "linear-gradient(135deg, rgba(20, 224, 199, 0.8), rgba(67, 233, 123, 0.8))",
+                      project.image && !project.image.includes("placeholder")
+                        ? "linear-gradient(135deg, rgba(20, 224, 199, 0.7), rgba(67, 233, 123, 0.7))"
+                        : "linear-gradient(135deg, rgba(20, 224, 199, 0.8), rgba(67, 233, 123, 0.8))",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                     flexDirection: "column",
                     opacity: 0.9,
                   }}
-                  whileHover={{ opacity: 0.7 }}
-                  transition={{ duration: 0.3 }}
+                  whileHover={{
+                    opacity:
+                      project.image && !project.image.includes("placeholder")
+                        ? 0.5
+                        : 0.7,
+                  }}
+                  transition={{
+                    duration: 0.3,
+                  }}
                 >
                   <motion.span
                     style={{
@@ -290,7 +323,9 @@ export default function Projects() {
                       filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.3))",
                       marginBottom: "0.5rem",
                     }}
-                    animate={{ rotate: [0, 5, -5, 0] }}
+                    animate={{
+                      rotate: [0, 5, -5, 0],
+                    }}
                     transition={{
                       duration: 2,
                       repeat: Infinity,
@@ -621,7 +656,11 @@ export default function Projects() {
                 </button>
               </div>
 
-              <div style={{ marginBottom: "2rem" }}>
+              <div
+                style={{
+                  marginBottom: "2rem",
+                }}
+              >
                 <div
                   style={{
                     width: "100%",
@@ -633,16 +672,54 @@ export default function Projects() {
                     alignItems: "center",
                     justifyContent: "center",
                     marginBottom: "1.5rem",
+                    position: "relative",
+                    overflow: "hidden",
                   }}
                 >
-                  <span
+                  {/* Project Image in Modal */}
+                  {selectedProject.image &&
+                  !selectedProject.image.includes("placeholder") ? (
+                    <img
+                      src={selectedProject.image}
+                      alt={selectedProject.title}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                      }}
+                      onError={(e) => {
+                        e.currentTarget.style.display = "none";
+                      }}
+                    />
+                  ) : null}
+
+                  {/* Overlay with emoji */}
+                  <div
                     style={{
-                      fontSize: "4rem",
-                      filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.3))",
+                      position: "absolute",
+                      inset: 0,
+                      background:
+                        selectedProject.image &&
+                        !selectedProject.image.includes("placeholder")
+                          ? "linear-gradient(135deg, rgba(20, 224, 199, 0.3), rgba(67, 233, 123, 0.3))"
+                          : "linear-gradient(135deg, rgba(20, 224, 199, 0.8), rgba(67, 233, 123, 0.8))",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
                     }}
                   >
-                    {getCategoryEmoji(selectedProject.category)}
-                  </span>
+                    <span
+                      style={{
+                        fontSize: "4rem",
+                        filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.3))",
+                      }}
+                    >
+                      {getCategoryEmoji(selectedProject.category)}
+                    </span>
+                  </div>
                 </div>
               </div>
 

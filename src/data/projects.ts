@@ -140,7 +140,7 @@ export const projects: Project[] = [
             "Real-time",
             "Collaboration",
         ],
-        image: "/api/placeholder/600/400",
+        image: "/projects/hack-n-hunt.png",
         githubUrl: "https://github.com/i-ces/treasurehunt-app",
         category: "Games",
         status: "Complete",
@@ -217,7 +217,7 @@ export const projects: Project[] = [
         image: "/api/placeholder/600/400",
         githubUrl: "https://github.com/i-ces/treasurehunt-api-rails",
         category: "Backend",
-        status: "Active",
+        status: "Complete",
         features: [
             "RESTful API",
             "User Authentication",
