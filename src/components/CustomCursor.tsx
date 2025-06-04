@@ -1,15 +1,24 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
 export default function CustomCursor() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+  const rafId = useRef<number | null>(null);
 
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+      // Cancel previous animation frame to prevent queuing
+      if (rafId.current) {
+        cancelAnimationFrame(rafId.current);
+      }
+
+      // Use requestAnimationFrame for smoother updates
+      rafId.current = requestAnimationFrame(() => {
+        setMousePosition({ x: e.clientX, y: e.clientY });
+      });
     };
 
     const handleMouseEnter = () => setIsHovering(true);
@@ -25,10 +34,16 @@ export default function CustomCursor() {
       el.addEventListener("mouseleave", handleMouseLeave);
     });
 
-    window.addEventListener("mousemove", updateMousePosition);
+    // Use passive event listener for better performance
+    window.addEventListener("mousemove", updateMousePosition, {
+      passive: true,
+    });
 
     return () => {
       window.removeEventListener("mousemove", updateMousePosition);
+      if (rafId.current) {
+        cancelAnimationFrame(rafId.current);
+      }
       interactiveElements.forEach((el) => {
         el.removeEventListener("mouseenter", handleMouseEnter);
         el.removeEventListener("mouseleave", handleMouseLeave);
@@ -47,6 +62,7 @@ export default function CustomCursor() {
           pointerEvents: "none",
           zIndex: 50,
           mixBlendMode: "difference",
+          willChange: "transform", // Optimize for animations
         }}
         animate={{
           x: mousePosition.x - 8,
@@ -55,9 +71,10 @@ export default function CustomCursor() {
         }}
         transition={{
           type: "spring",
-          stiffness: 500,
-          damping: 30,
-          mass: 0.5,
+          stiffness: 800, // Increased for faster response
+          damping: 25, // Reduced for quicker settling
+          mass: 0.2, // Reduced for lighter feel
+          restDelta: 0.01, // Smaller rest threshold for immediate response
         }}
       >
         <div
@@ -78,6 +95,7 @@ export default function CustomCursor() {
           left: 0,
           pointerEvents: "none",
           zIndex: 49,
+          willChange: "transform", // Optimize for animations
         }}
         animate={{
           x: mousePosition.x - 20,
@@ -86,9 +104,10 @@ export default function CustomCursor() {
         }}
         transition={{
           type: "spring",
-          stiffness: 100,
-          damping: 20,
-          mass: 1,
+          stiffness: 150, // Increased for better following
+          damping: 15, // Reduced for smoother trail
+          mass: 0.8, // Slightly reduced
+          restDelta: 0.01, // Smaller rest threshold
         }}
       >
         <div
