@@ -53,19 +53,19 @@ export default function Contact() {
     {
       icon: "📧",
       label: "Email",
-      value: "seamoon@example.com",
-      href: "mailto:seamoon@example.com",
+      value: "hackedasocial@gmail.com",
+      href: "mailto:hackedasocial@gmail.com",
     },
     {
       icon: "📱",
       label: "Phone",
-      value: "+1 (555) 123-4567",
-      href: "tel:+15551234567",
+      value: "+977 9866142928",
+      href: "tel:+9779866142928",
     },
     {
       icon: "📍",
       label: "Location",
-      value: "San Francisco, CA",
+      value: "Pokhara, Nepal",
       href: "#",
     },
   ];
@@ -99,6 +99,82 @@ export default function Contact() {
             Have a project in mind or just want to say hello? I&apos;d love to
             hear from you!
           </p>
+        </motion.div>
+
+        {/* CV Download Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.1 }}
+          style={{
+            textAlign: "center",
+            marginBottom: "4rem",
+            padding: "2rem",
+            background:
+              "linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-emerald) 100%)",
+            borderRadius: "1.5rem",
+            color: "#0a0a0a",
+          }}
+        >
+          <h3
+            style={{
+              fontSize: "1.5rem",
+              fontWeight: "700",
+              marginBottom: "1rem",
+              color: "#0a0a0a",
+            }}
+          >
+            Download My Resume
+          </h3>
+          <p
+            style={{
+              fontSize: "1rem",
+              marginBottom: "2rem",
+              color: "#1a1a1a",
+              opacity: 0.8,
+            }}
+          >
+            Get a detailed overview of my skills, experience, and projects.
+          </p>
+          <motion.a
+            href="/assets/resume.pdf"
+            download="Seamoon_Pandey_Resume.pdf"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              background: "#0a0a0a",
+              color: "white",
+              padding: "1rem 2rem",
+              borderRadius: "3rem",
+              textDecoration: "none",
+              fontWeight: "700",
+              fontSize: "1rem",
+              boxShadow: "0 8px 25px rgba(0, 0, 0, 0.2)",
+              transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+            }}
+            whileHover={{
+              scale: 1.05,
+              boxShadow: "0 12px 35px rgba(0, 0, 0, 0.3)",
+              y: -2,
+            }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 16L7 11L8.4 9.6L11 12.2V4H13V12.2L15.6 9.6L17 11L12 16Z"
+                fill="currentColor"
+              />
+              <path d="M5 20V18H19V20H5Z" fill="currentColor" />
+            </svg>
+            Download Resume
+          </motion.a>
         </motion.div>
 
         <div
@@ -199,13 +275,21 @@ export default function Contact() {
               </h4>
               <div style={{ display: "flex", gap: "1rem" }}>
                 {[
-                  { name: "GitHub", icon: "🐙", href: "https://github.com" },
+                  {
+                    name: "GitHub",
+                    icon: "🐙",
+                    href: "https://github.com/seamoonpandey",
+                  },
                   {
                     name: "LinkedIn",
                     icon: "💼",
-                    href: "https://linkedin.com",
+                    href: "https://www.linkedin.com/in/seamoon-pandey-1981a6365/",
                   },
-                  { name: "Twitter", icon: "🐦", href: "https://twitter.com" },
+                  {
+                    name: "Twitter",
+                    icon: "🐦",
+                    href: "https://x.com/seamoonpandey",
+                  },
                 ].map((social) => (
                   <motion.a
                     key={social.name}
