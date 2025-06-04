@@ -484,15 +484,16 @@ export default function Projects() {
                       padding: "0.6rem 1rem",
                       background:
                         "linear-gradient(135deg, var(--accent-blue), var(--accent-emerald))",
-                      color: "white",
+                      color: "#0a0a0a", // Dark text for better contrast
                       textAlign: "center",
                       borderRadius: "0.5rem",
                       fontSize: "0.8rem",
-                      fontWeight: "600",
+                      fontWeight: "700", // Bolder weight
                       border: "none",
                       cursor: "pointer",
                       boxShadow: "0 4px 15px rgba(20, 224, 199, 0.3)",
                       transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                      textShadow: "0 1px 2px rgba(255, 255, 255, 0.3)", // Light text shadow
                     }}
                     whileHover={{
                       scale: 1.03,
@@ -561,13 +562,13 @@ export default function Projects() {
                 background: showAll
                   ? "var(--bg-tertiary)"
                   : "linear-gradient(135deg, var(--accent-blue), var(--accent-emerald))",
-                color: showAll ? "var(--text-primary)" : "white",
+                color: showAll ? "var(--text-primary)" : "#0a0a0a", // Dark text for gradient
                 border: showAll
                   ? "2px solid var(--border-medium)"
                   : "2px solid transparent",
                 borderRadius: "3rem",
                 fontSize: "1rem",
-                fontWeight: "600",
+                fontWeight: showAll ? "600" : "700", // Bolder for gradient
                 cursor: "pointer",
                 boxShadow: showAll
                   ? "var(--shadow-md)"
@@ -576,6 +577,9 @@ export default function Projects() {
                 display: "flex",
                 alignItems: "center",
                 gap: "0.5rem",
+                textShadow: showAll
+                  ? "none"
+                  : "0 1px 2px rgba(255, 255, 255, 0.3)", // Add text shadow for gradient
               }}
               whileHover={{
                 scale: 1.05,
@@ -920,13 +924,14 @@ export default function Projects() {
                     padding: "1rem 2rem",
                     background:
                       "linear-gradient(135deg, var(--accent-blue), var(--accent-emerald))",
-                    color: "white",
+                    color: "#0a0a0a", // Dark text for better contrast
                     textAlign: "center",
                     borderRadius: "0.75rem",
                     fontSize: "1rem",
-                    fontWeight: "600",
+                    fontWeight: "700", // Bolder weight
                     textDecoration: "none",
                     boxShadow: "0 4px 15px rgba(20, 224, 199, 0.3)",
+                    textShadow: "0 1px 2px rgba(255, 255, 255, 0.3)", // Light text shadow
                   }}
                 >
                   🔗 View on GitHub

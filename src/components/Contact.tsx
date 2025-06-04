@@ -162,7 +162,7 @@ export default function Contact() {
                   whileHover={{
                     scale: 1.02,
                     backgroundColor: "var(--accent-blue)",
-                    color: "white",
+                    color: "#0a0a0a", // Dark text for better contrast on hover
                   }}
                   initial={{ opacity: 0, y: 20 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -383,6 +383,9 @@ export default function Contact() {
                     width: "100%",
                     opacity: isLoading ? 0.7 : 1,
                     cursor: isLoading ? "not-allowed" : "pointer",
+                    color: "#0a0a0a", // Override for better contrast
+                    fontWeight: "700",
+                    textShadow: "0 1px 2px rgba(255, 255, 255, 0.3)",
                   }}
                   whileHover={!isLoading ? { scale: 1.02 } : {}}
                   whileTap={!isLoading ? { scale: 0.98 } : {}}
