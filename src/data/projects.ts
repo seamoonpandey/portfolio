@@ -60,13 +60,13 @@ export const projects: Project[] = [
     },
     {
         id: 3,
-        title: "Music App",
+        title: "Music",
         description:
             "Ad-free local music player for Android built with Flutter.",
         longDescription:
             "A clean and intuitive music player application for Android devices, developed using Flutter. It supports local music file playback, playlist management, and offers a seamless user experience without any advertisements.",
         technologies: ["Flutter", "Dart", "Android", "Audio APIs", "SQLite"],
-        image: "/api/placeholder/600/400",
+        image: "/projects/mujic.png",
         githubUrl: "https://github.com/seamoonpandey/music",
         category: "Mobile",
         status: "Complete",

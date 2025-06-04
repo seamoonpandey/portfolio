@@ -259,7 +259,7 @@ export default function Projects() {
               }}
               onMouseEnter={() => setActiveProject(index)}
             >
-              {/* Updated image section */}
+              {/* Updated image section with enhanced hover effects */}
               <div
                 style={{
                   width: "100%",
@@ -286,13 +286,12 @@ export default function Projects() {
                       left: 0,
                     }}
                     onError={(e) => {
-                      // Fallback to gradient if image fails to load
                       e.currentTarget.style.display = "none";
                     }}
                   />
                 ) : null}
 
-                {/* Overlay with emoji and status */}
+                {/* Updated overlay - completely transparent on hover when image exists */}
                 <motion.div
                   style={{
                     position: "absolute",
@@ -310,42 +309,61 @@ export default function Projects() {
                   whileHover={{
                     opacity:
                       project.image && !project.image.includes("placeholder")
-                        ? 0.5
+                        ? 0 // Completely transparent when image exists
                         : 0.7,
                   }}
                   transition={{
                     duration: 0.3,
                   }}
                 >
-                  <motion.span
+                  {/* Icon and status - hidden on hover when image exists */}
+                  <motion.div
                     style={{
-                      fontSize: "2.5rem",
-                      filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.3))",
-                      marginBottom: "0.5rem",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexDirection: "column",
                     }}
-                    animate={{
-                      rotate: [0, 5, -5, 0],
+                    whileHover={{
+                      opacity:
+                        project.image && !project.image.includes("placeholder")
+                          ? 0 // Completely hidden when image exists
+                          : 1,
                     }}
                     transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      ease: "easeInOut",
+                      duration: 0.3,
                     }}
                   >
-                    {getCategoryEmoji(project.category)}
-                  </motion.span>
-                  <span
-                    style={{
-                      color: "white",
-                      fontSize: "0.9rem",
-                      fontWeight: "600",
-                      background: "rgba(0,0,0,0.3)",
-                      padding: "0.25rem 0.75rem",
-                      borderRadius: "1rem",
-                    }}
-                  >
-                    {project.status}
-                  </span>
+                    <motion.span
+                      style={{
+                        fontSize: "2.5rem",
+                        filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.3))",
+                        marginBottom: "0.5rem",
+                      }}
+                      animate={{
+                        rotate: [0, 5, -5, 0],
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
+                    >
+                      {getCategoryEmoji(project.category)}
+                    </motion.span>
+                    <span
+                      style={{
+                        color: "white",
+                        fontSize: "0.9rem",
+                        fontWeight: "600",
+                        background: "rgba(0,0,0,0.3)",
+                        padding: "0.25rem 0.75rem",
+                        borderRadius: "1rem",
+                      }}
+                    >
+                      {project.status}
+                    </span>
+                  </motion.div>
                 </motion.div>
               </div>
 
@@ -569,7 +587,7 @@ export default function Projects() {
         </motion.div>
       </div>
 
-      {/* Project Detail Modal */}
+      {/* Updated Project Detail Modal */}
       <AnimatePresence>
         {selectedProject && (
           <motion.div
@@ -656,6 +674,7 @@ export default function Projects() {
                 </button>
               </div>
 
+              {/* Updated modal image section - no overlay or icon when image exists */}
               <div
                 style={{
                   marginBottom: "2rem",
@@ -694,32 +713,29 @@ export default function Projects() {
                         e.currentTarget.style.display = "none";
                       }}
                     />
-                  ) : null}
-
-                  {/* Overlay with emoji */}
-                  <div
-                    style={{
-                      position: "absolute",
-                      inset: 0,
-                      background:
-                        selectedProject.image &&
-                        !selectedProject.image.includes("placeholder")
-                          ? "linear-gradient(135deg, rgba(20, 224, 199, 0.3), rgba(67, 233, 123, 0.3))"
-                          : "linear-gradient(135deg, rgba(20, 224, 199, 0.8), rgba(67, 233, 123, 0.8))",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <span
+                  ) : (
+                    /* Only show overlay and icon when no image */
+                    <div
                       style={{
-                        fontSize: "4rem",
-                        filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.3))",
+                        position: "absolute",
+                        inset: 0,
+                        background:
+                          "linear-gradient(135deg, rgba(20, 224, 199, 0.8), rgba(67, 233, 123, 0.8))",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
                       }}
                     >
-                      {getCategoryEmoji(selectedProject.category)}
-                    </span>
-                  </div>
+                      <span
+                        style={{
+                          fontSize: "4rem",
+                          filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.3))",
+                        }}
+                      >
+                        {getCategoryEmoji(selectedProject.category)}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
 
