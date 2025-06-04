@@ -172,7 +172,7 @@ export default function Navbar({ scrollProgress }: NavbarProps) {
             }}
             onClick={() => handleNavClick("#home")}
           >
-            Seamoon
+            Sea Moon
           </motion.div>
 
           {/* Desktop Navigation */}
