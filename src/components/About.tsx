@@ -179,7 +179,7 @@ export default function About() {
       ref={containerRef}
       id="about"
       style={{
-        padding: "6rem 2rem",
+        padding: "clamp(3rem, 8vw, 6rem) 1rem", // Responsive padding
         minHeight: "100vh",
         display: "flex",
         alignItems: "center",
@@ -197,22 +197,28 @@ export default function About() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "4rem",
+            gridTemplateColumns: "1fr", // Single column by default
+            gap: "3rem",
             alignItems: "center",
           }}
+          className="about-grid"
         >
           {/* Text Content */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8 }}
+            style={{
+              order: 2, // Text comes second on mobile
+            }}
+            className="about-text"
           >
             <h2
               style={{
-                fontSize: "2.5rem",
+                fontSize: "clamp(2rem, 5vw, 2.5rem)", // Responsive font size
                 fontWeight: "bold",
                 marginBottom: "1.5rem",
+                lineHeight: "1.2",
               }}
             >
               About <span style={{ color: "var(--accent-blue)" }}>Me</span>
@@ -220,9 +226,9 @@ export default function About() {
 
             <p
               style={{
-                fontSize: "1.125rem",
+                fontSize: "clamp(1rem, 2.5vw, 1.125rem)", // Responsive font size
                 color: "var(--text-secondary)",
-                marginBottom: "2rem",
+                marginBottom: "1.5rem",
                 lineHeight: "1.7",
               }}
             >
@@ -234,7 +240,7 @@ export default function About() {
 
             <p
               style={{
-                fontSize: "1.125rem",
+                fontSize: "clamp(1rem, 2.5vw, 1.125rem)", // Responsive font size
                 color: "var(--text-secondary)",
                 marginBottom: "2rem",
                 lineHeight: "1.7",
@@ -250,6 +256,11 @@ export default function About() {
               className="btn btn-primary"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              style={{
+                fontSize: "clamp(0.9rem, 2vw, 1rem)", // Responsive font size
+                padding:
+                  "clamp(0.75rem, 2vw, 1rem) clamp(1.25rem, 4vw, 1.5rem)", // Responsive padding
+              }}
             >
               Let&apos;s Work Together
             </motion.a>
@@ -264,7 +275,9 @@ export default function About() {
               position: "relative",
               display: "flex",
               justifyContent: "center",
+              order: 1, // Snake game comes first on mobile
             }}
+            className="about-visual"
           >
             <SnakeGameBox />
           </motion.div>
@@ -276,9 +289,9 @@ export default function About() {
           transition={{ duration: 0.8, delay: 0.4 }}
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-            gap: "2rem",
-            marginTop: "4rem",
+            gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", // Smaller min-width for mobile
+            gap: "1.5rem",
+            marginTop: "clamp(3rem, 6vw, 4rem)", // Responsive margin
           }}
         >
           {stats.map((stat, index) => (
@@ -287,7 +300,7 @@ export default function About() {
               className="card"
               style={{
                 textAlign: "center",
-                padding: "2rem",
+                padding: "clamp(1.25rem, 3vw, 2rem)", // Responsive padding
                 background:
                   "linear-gradient(120deg, #14e0c71a 0%, #ffffff26 100%)",
                 border: "1.5px solid #43e97b2e",
@@ -303,7 +316,7 @@ export default function About() {
             >
               <h3
                 style={{
-                  fontSize: "2.5rem",
+                  fontSize: "clamp(1.8rem, 4vw, 2.5rem)", // Responsive font size
                   fontWeight: "bold",
                   color: "var(--accent-blue)",
                   marginBottom: "0.5rem",
@@ -312,7 +325,13 @@ export default function About() {
               >
                 {stat.number}
               </h3>
-              <p style={{ color: "var(--text-secondary)", fontWeight: 500 }}>
+              <p
+                style={{
+                  color: "var(--text-secondary)",
+                  fontWeight: 500,
+                  fontSize: "clamp(0.85rem, 2vw, 1rem)", // Responsive font size
+                }}
+              >
                 {stat.label}
               </p>
               {/* Decorative floating dot */}
