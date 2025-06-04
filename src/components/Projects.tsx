@@ -19,10 +19,12 @@ import Image from "next/image";
 export default function Projects() {
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, amount: 0.1 });
-  const [activeProject, setActiveProject] = useState(0);
+  const [, setActiveProject] = useState(0);
   const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [showAll, setShowAll] = useState(false);
+  const initialLoad = 6; // Show 6 projects initially (changed from useState to const)
 
   // Parallax scroll effects
   const { scrollYProgress } = useScroll({
@@ -42,12 +44,22 @@ export default function Projects() {
         projects.filter((p) => p.category === activeCategory)
       );
     }
+    // Reset showAll when category changes
+    setShowAll(false);
   }, [activeCategory]);
 
   const handleCategoryChange = (category: string) => {
     setActiveCategory(category);
     setActiveProject(0);
+    setShowAll(false);
   };
+
+  // Get projects to display based on showAll state
+  const displayedProjects = showAll
+    ? filteredProjects
+    : filteredProjects.slice(0, initialLoad);
+
+  const hasMoreProjects = filteredProjects.length > initialLoad;
 
   const openProjectDetail = (project: Project) => {
     setSelectedProject(project);
@@ -220,14 +232,16 @@ export default function Projects() {
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
             gap: "1.5rem",
-            marginBottom: "3rem",
-            maxWidth: filteredProjects.length === 1 ? "400px" : "100%",
+            marginBottom: hasMoreProjects && !showAll ? "2rem" : "3rem",
+            maxWidth: displayedProjects.length === 1 ? "400px" : "100%",
             margin:
-              filteredProjects.length === 1 ? "0 auto 3rem" : "0 0 3rem 0",
+              displayedProjects.length === 1
+                ? `0 auto ${hasMoreProjects && !showAll ? "2rem" : "3rem"}`
+                : `0 0 ${hasMoreProjects && !showAll ? "2rem" : "3rem"} 0`,
             justifyContent: "center",
           }}
         >
-          {filteredProjects.map((project, index) => (
+          {displayedProjects.map((project, index) => (
             <motion.div
               key={project.id}
               onClick={() => openProjectDetail(project)}
@@ -242,7 +256,7 @@ export default function Projects() {
                 cursor: "pointer",
                 transformStyle: "preserve-3d",
                 perspective: "1000px",
-                maxWidth: filteredProjects.length === 1 ? "400px" : "none",
+                maxWidth: displayedProjects.length === 1 ? "400px" : "none",
                 width: "100%",
               }}
               initial={{ opacity: 0, y: 80, rotateX: 45 }}
@@ -528,6 +542,68 @@ export default function Projects() {
           ))}
         </motion.div>
 
+        {/* View More/Less Button */}
+        {hasMoreProjects && (
+          <motion.div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginBottom: "3rem",
+            }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 1 }}
+          >
+            <motion.button
+              onClick={() => setShowAll(!showAll)}
+              style={{
+                padding: "1rem 2rem",
+                background: showAll
+                  ? "var(--bg-tertiary)"
+                  : "linear-gradient(135deg, var(--accent-blue), var(--accent-emerald))",
+                color: showAll ? "var(--text-primary)" : "white",
+                border: showAll
+                  ? "2px solid var(--border-medium)"
+                  : "2px solid transparent",
+                borderRadius: "3rem",
+                fontSize: "1rem",
+                fontWeight: "600",
+                cursor: "pointer",
+                boxShadow: showAll
+                  ? "var(--shadow-md)"
+                  : "0 8px 25px rgba(20, 224, 199, 0.3)",
+                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
+              }}
+              whileHover={{
+                scale: 1.05,
+                boxShadow: showAll
+                  ? "0 12px 35px rgba(0, 0, 0, 0.15)"
+                  : "0 12px 35px rgba(20, 224, 199, 0.4)",
+                y: -2,
+              }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <span>
+                {showAll
+                  ? `Show Less (${
+                      filteredProjects.length - initialLoad
+                    } hidden)`
+                  : `View More (${filteredProjects.length - initialLoad} more)`}
+              </span>
+              <motion.span
+                animate={{ rotate: showAll ? 180 : 0 }}
+                transition={{ duration: 0.3 }}
+                style={{ fontSize: "1.2rem" }}
+              >
+                {showAll ? "🔼" : "🔽"}
+              </motion.span>
+            </motion.button>
+          </motion.div>
+        )}
+
         {/* Featured Project Detail */}
         <motion.div
           style={{
@@ -704,7 +780,9 @@ export default function Projects() {
                   {/* Project Image in Modal */}
                   {selectedProject.image &&
                   !selectedProject.image.includes("placeholder") ? (
-                    <img
+                    <Image
+                      width={1000}
+                      height={500}
                       src={selectedProject.image}
                       alt={selectedProject.title}
                       style={{
