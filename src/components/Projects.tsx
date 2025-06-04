@@ -230,15 +230,10 @@ export default function Projects() {
           style={{
             y: cardsY,
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
             gap: "1.5rem",
             marginBottom: hasMoreProjects && !showAll ? "2rem" : "3rem",
-            maxWidth: displayedProjects.length === 1 ? "400px" : "100%",
-            margin:
-              displayedProjects.length === 1
-                ? `0 auto ${hasMoreProjects && !showAll ? "2rem" : "3rem"}`
-                : `0 0 ${hasMoreProjects && !showAll ? "2rem" : "3rem"} 0`,
-            justifyContent: "center",
+            justifyItems: "start", // Left align the cards
           }}
         >
           {displayedProjects.map((project, index) => (
@@ -258,7 +253,6 @@ export default function Projects() {
                 perspective: "1000px",
                 maxWidth: "400px", // Constrain card width
                 width: "100%",
-                margin: "0 auto", // Center cards when constrained
               }}
               initial={{ opacity: 0, y: 80, rotateX: 45 }}
               animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
