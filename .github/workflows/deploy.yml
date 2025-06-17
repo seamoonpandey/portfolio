@@ -1,21 +1,18 @@
-# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
-name: Deploy to Cloudflare Pages
+name: Build App
 
 on:
   push:
-    branches:
-      - deploy
+    branches: [deploy]
+  pull_request:
+    branches: [deploy]
 
 jobs:
-  deploy:
-    name: Deploy Static Site to Cloudflare Pages
+  test_and_build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
+      - uses: actions/checkout@v3
+      - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version-file: ".nvmrc"
@@ -24,12 +21,8 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Build Static Site
-        run: npm run build
+      - name: Run Tests
+        run: npm test
 
-      - name: Install Wrangler CLI
-        run: npm install -g wrangler
-      - name: Deploy to Cloudflare Pages
-        run: wrangler pages deploy ./out --project-name=your-project-name --account-id=${{ secrets.CF_ACCOUNT_ID }}
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+      - name: Build
+        run: npm run build
