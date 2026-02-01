@@ -50,7 +50,7 @@ const commands: Record<string, string> = {
   'help': 'help.md',
 };
 
-export const parseCommand = (input: string): CommandOutput => {
+export const parseCommand = (input: string, history: string[] = []): CommandOutput => {
   const trimmed = input.trim();
   if (!trimmed) return { type: 'text', content: '' };
 
@@ -85,6 +85,10 @@ export const parseCommand = (input: string): CommandOutput => {
     case 'pwd':
       return { type: 'success', content: '/home/moon/portfolio' };
       
+    case 'history':
+      const historyList = history.join('\n');
+      return { type: 'text', content: historyList || 'History is empty.' };
+
     case 'exit':
        // This will be handled by the component side to toggle view
        return { type: 'success', content: 'Exiting CLI mode...' };

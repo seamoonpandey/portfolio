@@ -14,7 +14,15 @@ type HistoryItem = {
 };
 
 const InteractiveTerminal: React.FC<InteractiveTerminalProps> = ({ onExit }) => {
-  const [history, setHistory] = useState<HistoryItem[]>([]);
+  const [history, setHistory] = useState<HistoryItem[]>(() => {
+    const saved = localStorage.getItem('terminal_history');
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [commandHistory, setCommandHistory] = useState<string[]>(() => {
+    const saved = localStorage.getItem('command_history');
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [historyIndex, setHistoryIndex] = useState(-1);
   const [input, setInput] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -23,7 +31,7 @@ const InteractiveTerminal: React.FC<InteractiveTerminalProps> = ({ onExit }) => 
     if (inputRef.current) {
       inputRef.current.focus();
     }
-    // Initial welcome message
+    // Initial welcome message if history is empty
     if (history.length === 0) {
       setHistory([
         { command: '', output: 'Welcome to the interactive terminal! Type "help" to see available commands.', type: 'success' }
@@ -32,19 +40,34 @@ const InteractiveTerminal: React.FC<InteractiveTerminalProps> = ({ onExit }) => 
   }, []);
 
   useEffect(() => {
+    localStorage.setItem('terminal_history', JSON.stringify(history));
+  }, [history]);
+
+  useEffect(() => {
+    localStorage.setItem('command_history', JSON.stringify(commandHistory));
+  }, [commandHistory]);
+
+  useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [history]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!input.trim()) return;
+    const trimmedInput = input.trim();
+    if (!trimmedInput) return;
 
-    if (input.trim().toLowerCase() === 'exit') {
+    if (trimmedInput.toLowerCase() === 'exit') {
         onExit();
         return;
     }
 
-    const result = parseCommand(input);
+    // Add to command history if it's different from the last one
+    if (commandHistory[commandHistory.length - 1] !== trimmedInput) {
+      setCommandHistory(prev => [...prev, trimmedInput]);
+    }
+    setHistoryIndex(-1);
+
+    const result = parseCommand(trimmedInput, commandHistory);
 
     if (result.type === 'clear') {
       setHistory([]);
@@ -56,6 +79,29 @@ const InteractiveTerminal: React.FC<InteractiveTerminalProps> = ({ onExit }) => 
       }]);
     }
     setInput('');
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (commandHistory.length === 0) return;
+      
+      const newIndex = historyIndex === -1 ? commandHistory.length - 1 : Math.max(0, historyIndex - 1);
+      setHistoryIndex(newIndex);
+      setInput(commandHistory[newIndex]);
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (historyIndex === -1) return;
+      
+      const newIndex = historyIndex + 1;
+      if (newIndex >= commandHistory.length) {
+        setHistoryIndex(-1);
+        setInput('');
+      } else {
+        setHistoryIndex(newIndex);
+        setInput(commandHistory[newIndex]);
+      }
+    }
   };
 
   return (
@@ -104,6 +150,7 @@ const InteractiveTerminal: React.FC<InteractiveTerminalProps> = ({ onExit }) => 
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
             className="flex-1 bg-transparent border-none outline-none text-gray-100 caret-terminal-green"
             autoFocus
           />
