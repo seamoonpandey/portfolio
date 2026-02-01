@@ -2,32 +2,18 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Github, ExternalLink } from 'lucide-react';
 import { staggerContainer, fadeInUp } from '../../utils/animations';
+import projectsMd from '../../data/cli/projects.md?raw';
+import matter from 'gray-matter';
 
-const projects = [
-  {
-    title: "EcoTrack",
-    description: "A sustainable lifestyle tracking PWA built with React and Firebase.",
-    tech: ["React", "Firebase", "PWA", "Tailwind"],
-    github: "https://github.com",
-    live: "https://example.com"
-  },
-  {
-    title: "DevTerminal",
-    description: "A web-based terminal emulator for developer portfolio templates.",
-    tech: ["TypeScript", "React", "Framer Motion"],
-    github: "https://github.com",
-    live: "https://example.com"
-  },
-  {
-    title: "CryptoDash",
-    description: "Real-time cryptocurrency dashboard with D3.js visualizations.",
-    tech: ["Next.js", "D3.js", "CoinGecko API"],
-    github: "https://github.com",
-    live: "https://example.com"
-  }
-];
+interface Project {
+  title: string;
+  description: string;
+  tech: string[];
+  github: string;
+  live: string;
+}
 
-const ProjectCard = ({ project }: { project: typeof projects[0] }) => {
+const ProjectCard = ({ project }: { project: Project }) => {
   return (
     <motion.div 
       variants={fadeInUp}
@@ -67,9 +53,10 @@ const ProjectCard = ({ project }: { project: typeof projects[0] }) => {
 };
 
 const Projects: React.FC = () => {
-    // Parallax setup could go here if we wanted complex background movement
-    // For now, we'll stick to a clean grid layout which fits the terminal aesthetic better
-    
+  const parsed = matter(projectsMd || '');
+  const data = parsed.data || {};
+  const projects: Project[] = data.projects || [];
+
   return (
     <motion.div 
       initial="hidden"

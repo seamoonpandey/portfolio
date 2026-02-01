@@ -1,26 +1,22 @@
+---
+projects:
+  - title: EcoTrack
+    description: A sustainable lifestyle tracking PWA built with React and Firebase.
+    tech: ["React", "Firebase", "PWA", "Tailwind"]
+    github: "https://github.com"
+    live: "https://example.com"
+  - title: DevTerminal
+    description: A web-based terminal emulator for developer portfolio templates.
+    tech: ["TypeScript", "React", "Framer Motion"]
+    github: "https://github.com"
+    live: "https://example.com"
+  - title: CryptoDash
+    description: Real-time cryptocurrency dashboard with D3.js visualizations.
+    tech: ["Next.js", "D3.js", "CoinGecko API"]
+    github: "https://github.com"
+    live: "https://example.com"
+---
+
 # Projects
 
-Here are some of the cool things I've built:
-
-## 1. EcoTrack
-
-> A sustainable lifestyle tracking PWA.
-
-- **Tech**: React, Firebase, PWA
-- **Status**: Live
-
-## 2. DevTerminal
-
-> This very portfolio! A terminal-themed showcase.
-
-- **Tech**: React, Vite, Tailwind v4
-- **Status**: In Development
-
-## 3. CryptoDash
-
-> Real-time crypto analytics dashboard.
-
-- **Tech**: Next.js, D3.js
-- **Status**: Prototype
-
-Type \`cat [project_name]\` to see more details (coming soon!).
+Use `ls` to see individual projects or `cat` to see the full list.

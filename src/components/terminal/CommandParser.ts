@@ -3,18 +3,43 @@ import projectsMd from '../../data/cli/projects.md?raw';
 import skillsMd from '../../data/cli/skills.md?raw';
 import contactMd from '../../data/cli/contact.md?raw';
 import helpMd from '../../data/cli/help.md?raw';
+import matter from 'gray-matter';
 
 type CommandOutput = {
   type: 'text' | 'error' | 'success' | 'clear';
   content?: string;
 };
 
+const formatFrontmatter = (md: string) => {
+  try {
+    const { data, content } = matter(md);
+    let output = content.trim();
+
+    // If there's structured data but little content, format the data for terminal
+    if (data.projects) {
+      output += '\n\n' + data.projects.map((p: any) => 
+        `[${p.title}]\n${p.description}\nTech: ${p.tech.join(', ')}\nGithub: ${p.github}`
+      ).join('\n\n');
+    }
+
+    if (data.skills) {
+      output += '\n\n' + Object.entries(data.skills).map(([cat, items]: any) => 
+        `${cat}: ${items.join(', ')}`
+      ).join('\n');
+    }
+
+    return output.trim() || 'No content available.';
+  } catch (e) {
+    return md;
+  }
+};
+
 const fileSystem: Record<string, string> = {
-  'about.md': aboutMd,
-  'projects.md': projectsMd,
-  'skills.md': skillsMd,
-  'contact.md': contactMd,
-  'help.md': helpMd,
+  'about.md': formatFrontmatter(aboutMd),
+  'projects.md': formatFrontmatter(projectsMd),
+  'skills.md': formatFrontmatter(skillsMd),
+  'contact.md': formatFrontmatter(contactMd),
+  'help.md': formatFrontmatter(helpMd),
 };
 
 const commands: Record<string, string> = {

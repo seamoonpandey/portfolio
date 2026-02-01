@@ -1,14 +1,14 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { staggerContainer, fadeInUp } from '../../utils/animations';
-
-const skills = {
-  Frontend: ["React", "TypeScript", "Tailwind CSS", "Next.js", "Framer Motion"],
-  Backend: ["Node.js", "PostgreSQL", "GraphQL", "Python", "Redis"],
-  Tools: ["Git", "Docker", "Linux", "AWS", "Vim"]
-};
+import skillsMd from '../../data/cli/skills.md?raw';
+import matter from 'gray-matter';
 
 const Skills: React.FC = () => {
+  const parsed = matter(skillsMd || '');
+  const data = parsed.data || {};
+  const skills: Record<string, string[]> = data.skills || {};
+
   return (
     <motion.div 
       initial="hidden"

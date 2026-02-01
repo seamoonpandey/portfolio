@@ -1,22 +1,10 @@
+---
+skills:
+  Frontend: ["React", "TypeScript", "Tailwind CSS", "Next.js", "Framer Motion"]
+  Backend: ["Node.js", "PostgreSQL", "GraphQL", "Python", "Redis"]
+  Tools: ["Git", "Docker", "Linux", "AWS", "Vim"]
+---
+
 # Technical Skills
 
-## Languages
-
-- JavaScript / TypeScript
-- Python
-- SQL
-- HTML / CSS
-
-## Frameworks & Libraries
-
-- React, Next.js
-- Tailwind CSS
-- Node.js, Express
-- Framer Motion
-
-## Tools
-
-- Git / GitHub
-- Docker
-- Linux / Bash
-- VS Code
+A comprehensive list of my technical expertise across different domains.

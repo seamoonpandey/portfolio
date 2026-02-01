@@ -1,8 +1,14 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { staggerContainer, fadeInUp } from '../../utils/animations';
+import aboutMd from '../../data/cli/about.md?raw';
+import matter from 'gray-matter';
 
 const Hero: React.FC = () => {
+  const parsed = matter(aboutMd || '');
+  const data = parsed.data || {};
+  const { name = 'Moon', title = 'Developer', summary = '' } = data;
+
   return (
     <motion.div 
       initial="hidden"
@@ -19,10 +25,10 @@ const Hero: React.FC = () => {
         </div>
         
         <h1 className="text-4xl sm:text-6xl font-bold tracking-tight">
-          Hello, I'm <span className="text-terminal-green">Moon</span>
+          Hello, I'm <span className="text-terminal-green">{name}</span>
         </h1>
         <h2 className="text-xl sm:text-3xl text-gray-400">
-          Full Stack Developer & UI/UX Enthusiast
+          {title}
         </h2>
       </motion.div>
 
@@ -43,9 +49,7 @@ const Hero: React.FC = () => {
       
       <motion.div variants={fadeInUp} className="space-y-4 max-w-2xl">
         <p className="text-lg text-gray-400">
-         I build accessible, pixel-perfect, and performant web experiences.
-         I'm focused on creating interactive terminal-like interfaces that 
-         combine nostalgia with modern UX.
+         {summary}
         </p>
       </motion.div>
 
