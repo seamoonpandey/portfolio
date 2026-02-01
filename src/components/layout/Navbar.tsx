@@ -1,5 +1,5 @@
-import React from 'react';
 import { Terminal, Code, User, Mail, Cpu } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 
 const navItems = [
@@ -16,16 +16,30 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavigate }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleNavClick = (id: string) => {
+    if (location.pathname !== '/') {
+      navigate('/');
+      // Wait for navigation to complete before scrolling
+      setTimeout(() => onNavigate(id), 100);
+    } else {
+      onNavigate(id);
+    }
+  };
+
   return (
     <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-terminal-dim/90 backdrop-blur-sm border border-terminal-border px-4 py-2 rounded-full z-50 shadow-lg">
       <ul className="flex items-center gap-1 sm:gap-4">
         {navItems.map((item) => {
           const Icon = item.icon;
-          const isActive = activeSection === item.id;
+          const isActive = (location.pathname === '/' && activeSection === item.id);
+            
           return (
             <li key={item.id}>
               <button
-                onClick={() => onNavigate(item.id)}
+                onClick={() => handleNavClick(item.id)}
                 className={clsx(
                   "flex items-center gap-2 px-3 py-2 rounded-md transition-all duration-300 font-mono text-sm",
                   isActive 

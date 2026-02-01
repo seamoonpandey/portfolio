@@ -7,8 +7,9 @@ import Projects from './components/sections/Projects';
 import Skills from './components/sections/Skills';
 import Contact from './components/sections/Contact';
 import InteractiveTerminal from './components/terminal/InteractiveTerminal';
-import { Terminal } from 'lucide-react';
+import { Terminal, Gamepad2 } from 'lucide-react';
 import About from './components/sections/About';
+import Games from './components/Games';
 
 const Home = () => {
   const [activeSection, setActiveSection] = useState('home');
@@ -72,6 +73,14 @@ const Home = () => {
       <Navbar activeSection={activeSection} onNavigate={scrollToSection} />
 
       <button 
+        onClick={() => navigate('/games')}
+        className="fixed top-24 right-6 z-50 p-3 bg-terminal-dim border border-terminal-border rounded-full text-terminal-green hover:bg-terminal-border/50 hover:shadow-[0_0_15px_rgba(74,246,38,0.3)] transition-all duration-300"
+        title="Games Sandbox"
+      >
+        <Gamepad2 size={24} />
+      </button>
+
+      <button 
         onClick={() => navigate('/cli')}
         className="fixed top-6 right-6 z-50 p-3 bg-terminal-dim border border-terminal-border rounded-full text-terminal-green hover:bg-terminal-border/50 hover:shadow-[0_0_15px_rgba(74,246,38,0.3)] transition-all duration-300"
         title="Open Terminal Mode"
@@ -93,6 +102,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/cli" element={<CliPage />} />
+        <Route path="/games" element={<Games />} />
       </Routes>
     </Router>
   );
