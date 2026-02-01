@@ -5,9 +5,12 @@ import Hero from './components/sections/Hero';
 import Projects from './components/sections/Projects';
 import Skills from './components/sections/Skills';
 import Contact from './components/sections/Contact';
+import InteractiveTerminal from './components/terminal/InteractiveTerminal';
+import { Terminal } from 'lucide-react';
 
 function App() {
   const [activeSection, setActiveSection] = useState('home');
+  const [isCliMode, setIsCliMode] = useState(false);
 
   const scrollToSection = (section: string) => {
     setActiveSection(section);
@@ -30,7 +33,6 @@ function App() {
            <Skills />
         </div>
          <div id="about" className="min-h-[40vh] mb-20">
-           {/* Reuse Skills or create separate About if needed, for now using Hero content as About */}
            <div className="p-8 border border-terminal-border rounded-lg bg-terminal-dim/50">
              <h2 className="text-2xl font-bold text-terminal-green mb-4">./about</h2>
              <p className="text-gray-300 leading-relaxed">
@@ -48,6 +50,20 @@ function App() {
       </TerminalWindow>
       
       <Navbar activeSection={activeSection} onNavigate={scrollToSection} />
+
+      {/* CLI Toggle Button */}
+      <button 
+        onClick={() => setIsCliMode(true)}
+        className="fixed top-6 right-6 z-50 p-3 bg-terminal-dim border border-terminal-border rounded-full text-terminal-green hover:bg-terminal-border/50 hover:shadow-[0_0_15px_rgba(74,246,38,0.3)] transition-all duration-300"
+        title="Open Terminal Mode"
+      >
+        <Terminal size={24} />
+      </button>
+
+      {/* CLI Mode Overlay */}
+      {isCliMode && (
+        <InteractiveTerminal onExit={() => setIsCliMode(false)} />
+      )}
     </>
   );
 }
