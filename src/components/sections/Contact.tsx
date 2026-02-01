@@ -3,11 +3,37 @@ import { motion } from 'framer-motion';
 import { staggerContainer, fadeInUp } from '../../utils/animations';
 import contactMd from '../../data/cli/contact.md?raw';
 import matter from 'gray-matter';
+import { Github, Twitter, Linkedin, Mail, Send, ExternalLink, Globe } from 'lucide-react';
 
 const Contact: React.FC = () => {
   const [formState, setFormState] = useState({ name: '', email: '', message: '' });
-  const { data } = matter(contactMd);
-  const { links } = data;
+  
+  // Safely parse frontmatter with hardcoded fallback for development stability
+  let data: any = {};
+  try {
+    const parsed = matter(contactMd || '');
+    data = parsed.data || {};
+  } catch (e) {
+    console.error('Error parsing contact markdown:', e);
+  }
+
+  // Fallback data if parsing failed or returned empty
+  const email = data.email || 'moon@example.com';
+  const links = data.links || {
+    GitHub: 'github.com/moon',
+    Twitter: '@moon_dev',
+    LinkedIn: 'linkedin.com/in/moon'
+  };
+
+  const getPlatformIcon = (platform: string) => {
+    switch (platform.toLowerCase()) {
+      case 'github': return <Github size={18} />;
+      case 'twitter': return <Twitter size={18} />;
+      case 'linkedin': return <Linkedin size={18} />;
+      case 'email': return <Mail size={18} />;
+      default: return <Globe size={18} />;
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,7 +64,7 @@ const Contact: React.FC = () => {
               type="text"
               id="name"
               value={formState.name}
-              onChange={(e) => setFormState(prev => ({ ...prev, name: e.target.value }))}
+              onChange={(e) => setFormState((prev: typeof formState) => ({ ...prev, name: e.target.value }))}
               className="w-full bg-terminal-dim border border-terminal-border rounded p-3 text-gray-200 focus:border-terminal-green focus:outline-none transition-colors font-mono"
               placeholder="John Doe"
             />
@@ -52,7 +78,7 @@ const Contact: React.FC = () => {
               type="email"
               id="email"
               value={formState.email}
-              onChange={(e) => setFormState(prev => ({ ...prev, email: e.target.value }))}
+              onChange={(e) => setFormState((prev: typeof formState) => ({ ...prev, email: e.target.value }))}
               className="w-full bg-terminal-dim border border-terminal-border rounded p-3 text-gray-200 focus:border-terminal-green focus:outline-none transition-colors font-mono"
               placeholder="john@example.com"
             />
@@ -66,7 +92,7 @@ const Contact: React.FC = () => {
               id="message"
               rows={4}
               value={formState.message}
-              onChange={(e) => setFormState(prev => ({ ...prev, message: e.target.value }))}
+              onChange={(e) => setFormState((prev: typeof formState) => ({ ...prev, message: e.target.value }))}
               className="w-full bg-terminal-dim border border-terminal-border rounded p-3 text-gray-200 focus:border-terminal-green focus:outline-none transition-colors font-mono resize-none"
               placeholder="Your message here..."
             />
@@ -82,22 +108,47 @@ const Contact: React.FC = () => {
 
         <motion.div variants={fadeInUp} className="space-y-8">
           <div>
-            <h3 className="text-terminal-amber font-mono text-xl mb-4 border-b border-terminal-border pb-2">
-              Connect
+            <h3 className="text-terminal-amber font-mono text-xl mb-6 border-b border-terminal-border pb-2 flex items-center gap-2">
+              <Send size={20} /> Connect
             </h3>
-            <div className="space-y-4">
+            <div className="grid grid-cols-1 gap-4">
+              {email && (
+                <a 
+                  href={`mailto:${email}`}
+                  className="group flex items-center justify-between p-4 border border-terminal-border rounded hover:border-terminal-green hover:bg-terminal-green/5 transition-all duration-300"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="text-terminal-green group-hover:scale-110 transition-transform">
+                      <Mail size={20} />
+                    </div>
+                    <div>
+                      <span className="block text-terminal-green font-mono text-[10px] uppercase tracking-widest">Email</span>
+                      <span className="text-gray-300 font-mono text-sm">{email}</span>
+                    </div>
+                  </div>
+                  <ExternalLink size={14} className="text-terminal-border group-hover:text-terminal-green opacity-0 group-hover:opacity-100 transition-all" />
+                </a>
+              )}
+              
               {Object.entries(links || {}).map(([platform, link]) => (
-                <div key={platform} className="flex flex-col gap-1">
-                  <span className="text-terminal-green font-mono text-xs uppercase tracking-widest">{platform}</span>
-                  <a 
-                    href={String(link).startsWith('http') ? String(link) : `https://${link}`} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-terminal-green transition-colors font-mono break-all"
-                  >
-                    {String(link)}
-                  </a>
-                </div>
+                <a 
+                  key={platform}
+                  href={String(link).startsWith('http') ? String(link) : (platform.toLowerCase() === 'twitter' && String(link).startsWith('@') ? `https://twitter.com/${String(link).slice(1)}` : `https://${link}`)} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="group flex items-center justify-between p-4 border border-terminal-border rounded hover:border-terminal-green hover:bg-terminal-green/5 transition-all duration-300"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="text-terminal-green group-hover:scale-110 transition-transform">
+                      {getPlatformIcon(platform)}
+                    </div>
+                    <div>
+                      <span className="block text-terminal-green font-mono text-[10px] uppercase tracking-widest">{platform}</span>
+                      <span className="text-gray-300 font-mono text-sm">{String(link)}</span>
+                    </div>
+                  </div>
+                  <ExternalLink size={14} className="text-terminal-border group-hover:text-terminal-green opacity-0 group-hover:opacity-100 transition-all" />
+                </a>
               ))}
             </div>
           </div>
