@@ -27,7 +27,8 @@ body {
   background-color: var(--color-terminal-black);
   color: var(--color-terminal-green);
   font-family: var(--font-mono);
-  antialiased: true;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 

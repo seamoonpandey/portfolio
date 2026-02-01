@@ -27,7 +27,7 @@ const projects = [
   }
 ];
 
-const ProjectCard = ({ project, index }: { project: typeof projects[0], index: number }) => {
+const ProjectCard = ({ project }: { project: typeof projects[0] }) => {
   return (
     <motion.div 
       variants={fadeInUp}
@@ -85,7 +85,7 @@ const Projects: React.FC = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {projects.map((project, index) => (
-          <ProjectCard key={index} project={project} index={index} />
+          <ProjectCard key={index} project={project} />
         ))}
       </div>
     </motion.div>
