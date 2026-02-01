@@ -53,7 +53,10 @@ const Hero: React.FC = () => {
         <a href="#projects" className="px-6 py-3 bg-terminal-green text-terminal-black font-bold rounded hover:bg-green-400 transition-colors">
           View Projects
         </a>
-        <a href="#contact" className="px-6 py-3 border border-terminal-green text-terminal-green rounded hover:bg-terminal-green/10 transition-colors">
+        <a href="/cv.pdf" download className="px-6 py-3 border border-terminal-green text-terminal-green rounded hover:bg-terminal-green/10 transition-colors flex items-center gap-2">
+          <span>Download CV</span>
+        </a>
+        <a href="#contact" className="px-6 py-3 border border-terminal-border text-gray-400 rounded hover:text-terminal-green hover:border-terminal-green transition-colors">
           Contact Me
         </a>
       </motion.div>
