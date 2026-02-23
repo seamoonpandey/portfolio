@@ -1,16 +1,19 @@
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { Gamepad2, ArrowLeft, Construction, Trophy, Target, Zap } from 'lucide-react';
+import { Gamepad2, ArrowLeft, Construction } from 'lucide-react';
 import { staggerContainer, fadeInUp } from '../utils/animations';
 
 const Games = () => {
   const navigate = useNavigate();
 
-  const comingSoon = [
-    { title: 'Cyber Racer', icon: Zap, description: 'High-speed terminal racing game.' },
-    { title: 'Code Breaker', icon: Target, description: 'Logic-based puzzle solving.' },
-    { title: 'Git Quest', icon: Trophy, description: 'RPG adventure through git commits.' },
-  ];
+  interface Game {
+    title: string;
+    description: string;
+    icon: React.ComponentType<{ size?: number }>;
+  }
+
+  const comingSoon: Game[] = [
+ ];
 
   return (
     <div className="min-h-screen bg-terminal-black text-gray-100 p-8 font-mono relative overflow-hidden">
