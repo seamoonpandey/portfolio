@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# seamoonpandey.com.np
 
-## Getting Started
+Portfolio for Seamoon Pandey — AI & backend engineer. A landing page and a
+`/redsentinel` case study, built with Next.js and shipped as a fully static
+export to Cloudflare Pages.
 
-First, run the development server:
+The page ships **zero client-side JavaScript**. Everything is a Server
+Component, and the interactive parts (the six-stage scan stepper, the "how
+it's built" disclosures) are CSS-only.
+
+## Develop
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run lint
+npm run build    # static export → out/
+npm run preview  # build, then serve out/ through wrangler
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+There is no `start` script — `next start` does not work with
+`output: "export"`. Use `preview`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deploy
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+CI does this on every push to `main`. To deploy by hand:
 
-## Learn More
+```bash
+npm run deploy   # build + wrangler pages deploy
+```
 
-To learn more about Next.js, take a look at the following resources:
+Target is the Cloudflare Pages project **`seamoonpandey`**
+(`seamoonpandey.pages.dev`), configured in `wrangler.toml`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### CI secrets
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+`.github/workflows/deploy.yml` needs two repository secrets:
 
-## Deploy on Vercel
+| Secret | Value |
+|---|---|
+| `CLOUDFLARE_API_TOKEN` | Create at Cloudflare → My Profile → API Tokens, template **Edit Cloudflare Workers**, or a custom token with `Account → Cloudflare Pages → Edit` |
+| `CLOUDFLARE_ACCOUNT_ID` | `369ca544bad26307709f7e23c650c123` |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Pull requests run lint, build, and the export checks, but never deploy.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Gotchas worth keeping
+
+- **`_headers` sets `Content-Type: image/png` on `/opengraph-image`.** Next
+  emits the generated OG card with no file extension, so Pages would serve it
+  as `application/octet-stream` and every link preview would break. The CI
+  build asserts the file is still a PNG.
+- **`export const dynamic = "force-static"`** is required in
+  `opengraph-image.tsx`, `sitemap.ts`, and `robots.ts`. Without it the static
+  export fails at build time.
+- **Claims in the copy are held to the repo's evidence.** The RedSentinel
+  numbers come from `eval/` and `docs/ML_GUIDE.md` in
+  [seamoonpandey/Xbow](https://github.com/seamoonpandey/Xbow). The classifier's
+  99.5% accuracy was retracted after train/test leakage was found; the page
+  reports the honest post-fix figures. Do not restore the old numbers.
+
+## Layout
+
+```
+src/app/
+  site.ts              shared constants + the six scan stages
+  layout.tsx           fonts, metadata, JSON-LD Person
+  page.tsx             landing page
+  page.module.css      masthead, hero, walker, results
+  content.module.css   sections, cards, disclosure, footer
+  opengraph-image.tsx  1200×630 share card, generated at build
+  sitemap.ts robots.ts
+  redsentinel/         case study + its stylesheet
+public/
+  _headers             Cloudflare Pages headers
+```
