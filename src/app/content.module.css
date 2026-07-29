@@ -1,0 +1,265 @@
+/* ---- generic sections -------------------------------------------------- */
+
+.section {
+  width: var(--shell);
+  margin-inline: auto;
+  padding-block: clamp(3rem, 6vw, 5rem);
+  border-top: 1px solid var(--wire);
+}
+
+/* Three columns, so the six cards fill two rows exactly — no orphan cell. */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+  gap: 1px;
+  border: 1px solid var(--wire);
+  background: var(--wire);
+}
+
+.card {
+  background: var(--paper);
+  padding: 1.4rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  transition: background 0.18s ease;
+}
+
+.card:hover {
+  background: var(--paper-2);
+}
+
+.card p {
+  font-size: 0.95rem;
+  color: var(--ink-2);
+}
+
+.cardTitle {
+  font-size: 1.4rem;
+}
+
+.cardMeta {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.card .cardMeta {
+  color: var(--signal);
+}
+
+/* Push the disclosure + link pair to the bottom so a row of cards lines up. */
+.card .more {
+  margin-top: auto;
+  padding-top: 0.9rem;
+}
+
+.cardLink {
+  padding-top: 0.7rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+}
+
+.stack {
+  border-top: 1px solid var(--wire);
+}
+
+.stackRow {
+  display: grid;
+  grid-template-columns: 10rem minmax(0, 1fr);
+  gap: 0.35rem 2rem;
+  padding-block: 0.95rem;
+  border-bottom: 1px solid var(--wire);
+}
+
+.stackRow dt {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  padding-top: 0.25rem;
+}
+
+.stackRow dd {
+  font-size: 1.02rem;
+}
+
+/* ---- progressive disclosure -------------------------------------------- */
+
+/* Native <details> — the page stays scannable, the depth is one click away
+   and costs no JavaScript. */
+.more {
+  margin-top: 0.9rem;
+}
+
+.moreSummary {
+  list-style: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  transition: color 0.15s ease;
+}
+
+.moreSummary::-webkit-details-marker {
+  display: none;
+}
+
+.moreSummary::before {
+  content: "+";
+  display: inline-grid;
+  place-items: center;
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+  border: 1px solid currentColor;
+  font-size: 0.9em;
+  line-height: 1;
+}
+
+.more[open] > .moreSummary {
+  color: var(--ink);
+}
+
+.more[open] > .moreSummary::before {
+  content: "−";
+  background: var(--marker);
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.moreSummary:hover {
+  color: var(--signal);
+}
+
+.moreBody {
+  margin-top: 0.9rem;
+  padding-left: 1.05rem;
+  border-left: 2px solid var(--marker);
+  display: grid;
+  gap: 0.8rem;
+  max-width: 68ch;
+}
+
+.moreBody p {
+  font-size: 0.95rem;
+  line-height: 1.62;
+  color: var(--ink-2);
+}
+
+
+.gridNote {
+  margin-top: 1.6rem;
+  max-width: 58ch;
+  color: var(--ink-2);
+  font-size: 0.95rem;
+}
+
+/* ---- experience --------------------------------------------------------- */
+
+.timeline {
+  border-top: 1px solid var(--wire);
+}
+
+.entry {
+  display: grid;
+  grid-template-columns: 18rem minmax(0, 1fr);
+  gap: 0.6rem 2.5rem;
+  padding-block: 1.6rem;
+  border-bottom: 1px solid var(--wire);
+}
+
+.entryRole {
+  font-size: 1.35rem;
+}
+
+.entryWhen {
+  margin-top: 0.35rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--signal);
+}
+
+.entryBody p {
+  color: var(--ink-2);
+  max-width: 62ch;
+}
+
+.entryLinks {
+  list-style: none;
+  margin-top: 0.8rem;
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.95rem;
+  color: var(--ink-2);
+}
+
+.entryLinks a {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.82rem;
+  color: var(--ink);
+}
+
+/* ---- footer ------------------------------------------------------------ */
+
+.footer {
+  width: var(--shell);
+  margin-inline: auto;
+  padding-block: clamp(3.5rem, 7vw, 6rem);
+  border-top: 1px solid var(--ink);
+}
+
+.footerLede {
+  max-width: 44ch;
+  margin-top: -1.4rem;
+  margin-bottom: 1.8rem;
+  color: var(--ink-2);
+}
+
+.mail {
+  display: inline-block;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: clamp(1.15rem, 0.7rem + 1.8vw, 2.1rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  background-image: linear-gradient(var(--marker), var(--marker));
+  background-repeat: no-repeat;
+  background-position: 0 0.72em;
+  background-size: 100% 0.3em;
+  transition: background-size 0.25s ease, color 0.15s ease;
+}
+
+.mail:hover {
+  background-size: 100% 0.95em;
+}
+
+.footerLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  margin-top: 2.4rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--wire);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+}
+
+/* ---- narrow ------------------------------------------------------------ */
+
+@media (max-width: 900px) {
+  .stackRow,
+  .entry {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

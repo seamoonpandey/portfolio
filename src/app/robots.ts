@@ -1,0 +1,12 @@
+// Required by `output: "export"` — emitted as a static file at build time.
+export const dynamic = "force-static";
+
+import type { MetadataRoute } from "next";
+import { SITE } from "./site";
+
+export default function robots(): MetadataRoute.Robots {
+  return {
+    rules: { userAgent: "*", allow: "/" },
+    sitemap: `${SITE.url}/sitemap.xml`,
+  };
+}

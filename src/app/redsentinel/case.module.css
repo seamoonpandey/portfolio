@@ -1,0 +1,294 @@
+.top {
+  width: var(--shell);
+  margin-inline: auto;
+  padding-block: clamp(3rem, 7vw, 5.5rem) clamp(2.5rem, 5vw, 4rem);
+}
+
+.title {
+  font-size: clamp(2.8rem, 1.4rem + 6vw, 6rem);
+  font-variation-settings: "wdth" 88;
+}
+
+.standfirst {
+  max-width: 34ch;
+  margin-top: 1.2rem;
+  font-size: clamp(1.2rem, 1rem + 0.9vw, 1.75rem);
+  line-height: 1.35;
+  text-wrap: balance;
+}
+
+.standfirst em {
+  font-style: italic;
+  background-image: linear-gradient(var(--marker), var(--marker));
+  background-repeat: no-repeat;
+  background-position: 0 0.78em;
+  background-size: 100% 0.3em;
+}
+
+.meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: 1.6rem 2.5rem;
+  margin-block: 2.4rem 2rem;
+  padding-top: 1.6rem;
+  border-top: 1px solid var(--wire);
+}
+
+.meta dt {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--signal);
+  margin-bottom: 0.5rem;
+}
+
+.meta dd {
+  color: var(--ink-2);
+  font-size: 0.97rem;
+}
+
+/* ---- prose -------------------------------------------------------------- */
+
+.prose {
+  max-width: 66ch;
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 2.2rem;
+}
+
+.prose p {
+  color: var(--ink-2);
+}
+
+.prose strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.prose em {
+  font-style: italic;
+}
+
+.prose code,
+.callout code {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.86em;
+  background: var(--paper-2);
+  padding: 0.1em 0.32em;
+  color: var(--ink);
+}
+
+/* ---- service table ------------------------------------------------------ */
+
+.tableWrap {
+  overflow-x: auto;
+  border: 1px solid var(--wire);
+}
+
+.table {
+  width: 100%;
+  min-width: 44rem;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.table th {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  background: var(--paper-2);
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--wire);
+}
+
+.table td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--wire);
+  vertical-align: top;
+}
+
+.table tr:last-child td {
+  border-bottom: 0;
+}
+
+.strong {
+  font-weight: 600;
+}
+
+.num {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  color: var(--signal);
+}
+
+.muted {
+  color: var(--ink-2);
+}
+
+/* ---- stages ------------------------------------------------------------- */
+
+.stages {
+  list-style: none;
+  border-top: 1px solid var(--wire);
+}
+
+.stage {
+  display: grid;
+  grid-template-columns: 14rem minmax(0, 1fr);
+  gap: 0.8rem 2.5rem;
+  padding-block: 1.5rem;
+  border-bottom: 1px solid var(--wire);
+}
+
+.stageHead {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+}
+
+.stageNum {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--paper);
+  background: var(--ink);
+  padding: 0.15em 0.45em;
+}
+
+.stageName {
+  font-size: 1.3rem;
+}
+
+.stageLine {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  background: var(--paper-2);
+  border-left: 2px solid var(--marker);
+  padding: 0.55rem 0.8rem;
+  overflow-x: auto;
+  margin-bottom: 0.75rem;
+}
+
+.stageBody p {
+  color: var(--ink-2);
+  max-width: 66ch;
+  font-size: 0.97rem;
+}
+
+/* ---- callout ------------------------------------------------------------ */
+
+.callout {
+  border: 1px solid var(--ink);
+  background: var(--paper-2);
+  padding: 1.1rem 1.2rem;
+  max-width: 66ch;
+}
+
+.callout p {
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--ink-2);
+}
+
+.calloutLabel {
+  display: block;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--signal);
+  margin-bottom: 0.5rem;
+}
+
+/* ---- before/after ledger ------------------------------------------------ */
+
+.ledger {
+  border: 1px solid var(--ink);
+  max-width: 42rem;
+}
+
+.ledgerRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: baseline;
+  gap: 1.2rem;
+  padding: 0.75rem 1.1rem;
+  border-bottom: 1px solid var(--wire);
+}
+
+.ledgerKey {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.ledgerWas {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.95rem;
+  color: var(--ink-2);
+  text-decoration: line-through;
+  text-decoration-color: var(--signal);
+  text-decoration-thickness: 2px;
+}
+
+.ledgerNow {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 1.05rem;
+  font-weight: 600;
+  min-width: 4.5rem;
+  text-align: right;
+}
+
+.ledgerNote {
+  padding: 0.85rem 1.1rem;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--ink-2);
+  background: var(--paper-2);
+}
+
+/* ---- fallbacks ---------------------------------------------------------- */
+
+.fallbacks {
+  border-top: 1px solid var(--wire);
+  max-width: 72rem;
+}
+
+.fallback {
+  display: grid;
+  grid-template-columns: 18rem minmax(0, 1fr);
+  gap: 0.4rem 2.5rem;
+  padding-block: 1.1rem;
+  border-bottom: 1px solid var(--wire);
+}
+
+.fallback dt {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: var(--signal);
+}
+
+.fallback dd {
+  color: var(--ink-2);
+  font-size: 0.97rem;
+}
+
+@media (max-width: 900px) {
+  .stage,
+  .fallback {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ledgerRow {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: 0.7rem;
+  }
+}

@@ -1,0 +1,5 @@
+name = "seamoonpandey"
+compatibility_date = "2026-07-29"
+
+# Fully static export — Pages serves `out/` directly, no Functions, no adapter.
+pages_build_output_dir = "out"
