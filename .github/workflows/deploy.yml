@@ -64,4 +64,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # Match the pinned devDependency; the action otherwise installs its
+          # own much older default and the two drift apart silently.
+          wranglerVersion: "4.115.0"
           command: pages deploy out --project-name=seamoonpandey --branch=main
