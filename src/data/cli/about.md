@@ -1,21 +1,24 @@
 ---
-name: Moon
-title: Full Stack Developer & UI/UX Enthusiast
-summary: I build accessible, pixel-perfect, and performant web experiences. I'm focused on creating interactive terminal-like interfaces that combine nostalgia with modern UX.
+name: Seamoon Pandey
+title: AI & Backend Engineer
+summary: AI & backend engineer. I build the services that take untrusted input and the models that classify it — NestJS, FastAPI, PyTorch, Redis/BullMQ.
 specializations:
-  - Frontend: React, TypeScript, Tailwind CSS
-  - Backend: Node.js, Python, PostgreSQL
-  - Design: UI/UX, Accessibility
+  - Backend: NestJS, FastAPI, Fastify, Express, PostgreSQL, Redis, BullMQ
+  - ML / AI: PyTorch, Transformers, XGBoost, YOLOv8, ONNX
+  - Frontend: React, Next.js, Flutter, React Three Fiber
 ---
 
 # About Me
 
-Hi! I'm Moon, a Full Stack Developer passionate about building accessible and performant web applications.
+Hi! I'm Seamoon Pandey, an AI & Backend Engineer (Computer Engineer) based in Tilottama-1, Rupandehi.
+B.E. Computer Engineering, Tribhuvan University, 2026.
+
+I work across Python ML pipelines and TypeScript backends, and I ship both halves myself — from the training loop to the queue that serves it. I build the services that take untrusted input — and the models that know what it means.
 
 I specialize in:
 
-- **Frontend**: React, TypeScript, Tailwind CSS
-- **Backend**: Node.js, Python, PostgreSQL
-- **Design**: UI/UX, Accessibility
+- **Backend**: NestJS, FastAPI, Fastify, Express, PostgreSQL, Redis, BullMQ
+- **ML / AI**: PyTorch, Transformers, XGBoost, YOLOv8, ONNX
+- **Frontend**: React, Next.js, Flutter, React Three Fiber
 
-I believe in code that is clean, maintainable, and fun to write. When I'm not coding, you can find me exploring new tech stacks or contributing to open source.
+When I'm not coding, I'm probably experimenting with system architecture, security fuzzing, or payload generation.
