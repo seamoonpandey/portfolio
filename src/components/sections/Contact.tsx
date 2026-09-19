@@ -9,7 +9,7 @@ const Contact: React.FC = () => {
   const [formState, setFormState] = useState({ name: '', email: '', message: '' });
   
   // Safely parse frontmatter with hardcoded fallback for development stability
-  let data: any = {};
+  let data: Record<string, unknown> = {};
   try {
     const parsed = matter(contactMd || '');
     data = parsed.data || {};
@@ -18,11 +18,11 @@ const Contact: React.FC = () => {
   }
 
   // Fallback data if parsing failed or returned empty
-  const email = data.email || 'moon@example.com';
-  const links = data.links || {
-    GitHub: 'github.com/moon',
-    Twitter: '@moon_dev',
-    LinkedIn: 'linkedin.com/in/moon'
+  const email = (data.email as string) || 'pandeyseamoon05@gmail.com';
+  const links = (data.links as Record<string, string>) || {
+    GitHub: 'github.com/seamoonpandey',
+    Twitter: '@0xmoonsea',
+    LinkedIn: 'linkedin.com/in/seamoonpandey'
   };
 
   const getPlatformIcon = (platform: string) => {
