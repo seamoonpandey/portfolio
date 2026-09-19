@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Terminal as TerminalIcon, X } from 'lucide-react';
-import { parseCommand } from './CommandParser';
+import { parseCommand, vfs } from './CommandParser';
 import { motion } from 'framer-motion';
 
 interface InteractiveTerminalProps {
@@ -9,6 +9,7 @@ interface InteractiveTerminalProps {
 
 type HistoryItem = {
   command: string;
+  cwd?: string;
   output?: string;
   type: 'text' | 'error' | 'success';
 };
@@ -72,6 +73,7 @@ const InteractiveTerminal: React.FC<InteractiveTerminalProps> = ({ onExit }) => 
     } else {
       setHistory(prev => [...prev, { 
         command: input, 
+        cwd: vfs.cwd,
         output: result.content, 
         type: result.type as 'text' | 'error' | 'success'
       }]);
@@ -122,11 +124,13 @@ const InteractiveTerminal: React.FC<InteractiveTerminalProps> = ({ onExit }) => 
         className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-terminal-border scrollbar-track-transparent"
         onClick={() => inputRef.current?.focus()}
       >
-        {history.map((item, i) => (
+        {history.map((item, i) => {
+          const displayCwd = (item.cwd || '/home/guest').replace('/home/guest', '~');
+          return (
           <div key={i} className="mb-2">
             {item.command && (
               <div className="flex gap-2 text-gray-400">
-                <span className="text-terminal-green">moon@portfolio:~$</span>
+                <span className="text-terminal-green">guest@portfolio:{displayCwd}$</span>
                 <span>{item.command}</span>
               </div>
             )}
@@ -139,10 +143,10 @@ const InteractiveTerminal: React.FC<InteractiveTerminalProps> = ({ onExit }) => 
               </div>
             )}
           </div>
-        ))}
+        )})}
         
         <form onSubmit={handleSubmit} className="flex gap-2">
-          <span className="text-terminal-green">moon@portfolio:~$</span>
+          <span className="text-terminal-green">guest@portfolio:{vfs.cwd.replace('/home/guest', '~')}$</span>
           <input
             ref={inputRef}
             type="text"
