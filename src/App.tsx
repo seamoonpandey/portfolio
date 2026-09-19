@@ -63,11 +63,12 @@ const Home = () => {
          <div id="about" className="min-h-[40vh] mb-20">
            <About />
         </div>
-         <div id="contact" className="min-h-[80vh] mb-24">
+         <div id="contact" className="min-h-[80vh]">
            <Contact />
         </div>
         
-        <div className="h-10"></div>
+        {/* Spacer to ensure the navbar doesn't block the last section */}
+        <div className="h-32"></div>
       </TerminalWindow>
       
       <Navbar activeSection={activeSection} onNavigate={scrollToSection} />
