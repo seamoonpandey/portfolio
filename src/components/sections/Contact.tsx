@@ -50,7 +50,11 @@ const Contact: React.FC = () => {
       className="py-20 max-w-4xl mx-auto px-4"
     >
       <motion.h2 variants={fadeInUp} className="text-3xl font-bold mb-12 flex items-center gap-4">
-        <span className="text-terminal-green">./contact</span>
+        <div className="flex items-center gap-2 text-terminal-green">
+          <span className="text-terminal-amber">➜</span>
+          <span className="font-bold">~</span>
+          <span className="opacity-75">./contact</span>
+        </div>
         <span className="h-px bg-terminal-border flex-1" />
       </motion.h2>
 

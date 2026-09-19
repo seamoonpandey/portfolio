@@ -57,6 +57,10 @@ const aliases: Record<string, string> = {
   'skills': 'skills.md',
   'contact': 'contact.md',
   'help': 'help.md',
+  './about': 'about.md',
+  './projects': 'projects.md',
+  './skills': 'skills.md',
+  './contact': 'contact.md',
 };
 
 export const parseCommand = (input: string, history: string[] = []): CommandOutput => {
