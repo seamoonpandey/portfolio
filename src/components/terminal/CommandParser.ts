@@ -18,8 +18,8 @@ const formatFrontmatter = (md: string) => {
     let output = content.trim();
 
     if (data.projects) {
-      output += '\n\n' + data.projects.map((p: { title: string; description: string; tech: string[]; github: string; live?: string }) => 
-        `[${p.title}]\n${p.description}\nTech: ${p.tech.join(', ')}\nGithub: ${p.github}`
+      output += '\n\n' + data.projects.map((p: { title: string; description: string; detail?: string; tech: string[]; github: string; live?: string }) => 
+        `[${p.title}]\n${p.detail || p.description}\nTech: ${p.tech.join(', ')}\nGithub: ${p.github}`
       ).join('\n\n');
     }
 

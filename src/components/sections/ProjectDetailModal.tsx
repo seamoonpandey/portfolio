@@ -5,6 +5,7 @@ import { X, Github, ExternalLink, Code2 } from 'lucide-react';
 interface Project {
   title: string;
   description: string;
+  detail?: string;
   tech: string[];
   github: string;
   live: string;
@@ -81,9 +82,9 @@ const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({ project, isOpen
                   <h3 className="text-terminal-green text-sm mb-2 flex items-center gap-2">
                     <span className="text-terminal-amber">$</span> cat README.md
                   </h3>
-                  <p className="text-gray-300 leading-relaxed text-lg">
-                    {project.description}
-                  </p>
+                  <div className="text-gray-300 leading-relaxed text-lg whitespace-pre-wrap">
+                    {project.detail || project.description}
+                  </div>
                 </div>
 
                 {/* Tech Stack */}

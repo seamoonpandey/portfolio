@@ -9,6 +9,7 @@ import ProjectDetailModal from './ProjectDetailModal';
 interface Project {
   title: string;
   description: string;
+  detail?: string;
   tech: string[];
   github: string;
   live: string;
