@@ -16,7 +16,11 @@ type HistoryItem = {
 const InteractiveTerminal: React.FC<InteractiveTerminalProps> = ({ onExit }) => {
   const [history, setHistory] = useState<HistoryItem[]>(() => {
     const saved = localStorage.getItem('terminal_history');
-    return saved ? JSON.parse(saved) : [];
+    const parsed = saved ? JSON.parse(saved) : [];
+    if (parsed.length === 0) {
+      return [{ command: '', output: 'Welcome to the interactive terminal! Type "help" to see available commands.', type: 'success' }];
+    }
+    return parsed;
   });
   const [commandHistory, setCommandHistory] = useState<string[]>(() => {
     const saved = localStorage.getItem('command_history');
@@ -30,12 +34,6 @@ const InteractiveTerminal: React.FC<InteractiveTerminalProps> = ({ onExit }) => 
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
-    }
-    // Initial welcome message if history is empty
-    if (history.length === 0) {
-      setHistory([
-        { command: '', output: 'Welcome to the interactive terminal! Type "help" to see available commands.', type: 'success' }
-      ]);
     }
   }, []);
 
@@ -75,7 +73,7 @@ const InteractiveTerminal: React.FC<InteractiveTerminalProps> = ({ onExit }) => 
       setHistory(prev => [...prev, { 
         command: input, 
         output: result.content, 
-        type: result.type as any 
+        type: result.type as 'text' | 'error' | 'success'
       }]);
     }
     setInput('');
