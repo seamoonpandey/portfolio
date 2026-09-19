@@ -101,8 +101,8 @@ const Projects: React.FC = () => {
         variants={staggerContainer}
         className="py-20"
       >
-        <motion.h2 variants={fadeInUp} className="text-3xl font-bold mb-12 flex items-center gap-4">
-          <div className="flex items-center gap-2 text-terminal-green">
+        <motion.h2 variants={fadeInUp} className="mb-12 flex items-center gap-4">
+          <div className="flex items-center gap-2 text-terminal-green text-base font-normal">
             <span className="text-terminal-amber">➜</span>
             <span className="font-bold">~</span>
             <span className="opacity-75">cd projects</span>
