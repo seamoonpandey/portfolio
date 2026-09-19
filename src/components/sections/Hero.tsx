@@ -3,8 +3,10 @@ import { motion } from 'framer-motion';
 import { staggerContainer, fadeInUp } from '../../utils/animations';
 import aboutMd from '../../data/cli/about.md?raw';
 import matter from 'gray-matter';
+import { useNavigate } from 'react-router-dom';
 
 const Hero: React.FC = () => {
+  const navigate = useNavigate();
   const parsed = matter(aboutMd || '');
   const data = parsed.data || {};
   const { name = 'Moon', title = 'Developer', summary = '' } = data;
@@ -57,9 +59,9 @@ const Hero: React.FC = () => {
         <a href="#projects" className="px-6 py-3 bg-terminal-green text-terminal-black font-bold rounded hover:bg-green-400 transition-colors">
           View Projects
         </a>
-        <a href="/resume_seamoon_pandey.pdf" download className="px-6 py-3 border border-terminal-green text-terminal-green rounded hover:bg-terminal-green/10 transition-colors flex items-center gap-2">
-          <span>Download CV</span>
-        </a>
+        <button onClick={() => navigate('/resume')} className="px-6 py-3 border border-terminal-green text-terminal-green rounded hover:bg-terminal-green/10 transition-colors flex items-center gap-2">
+          <span>View Resume</span>
+        </button>
         <a href="#contact" className="px-6 py-3 border border-terminal-border text-gray-400 rounded hover:text-terminal-green hover:border-terminal-green transition-colors">
           Contact Me
         </a>

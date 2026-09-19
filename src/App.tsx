@@ -10,6 +10,7 @@ import InteractiveTerminal from './components/terminal/InteractiveTerminal';
 import { Terminal, Gamepad2 } from 'lucide-react';
 import About from './components/sections/About';
 import Games from './components/Games';
+import ResumePage from './components/Resume';
 
 const Home = () => {
   const [activeSection, setActiveSection] = useState('home');
@@ -104,6 +105,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/cli" element={<CliPage />} />
         <Route path="/games" element={<Games />} />
+        <Route path="/resume" element={<ResumePage />} />
       </Routes>
     </Router>
   );
