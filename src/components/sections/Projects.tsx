@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Github, ExternalLink } from 'lucide-react';
+import { Github, ExternalLink, Star } from 'lucide-react';
 import { staggerContainer, fadeInUp } from '../../utils/animations';
 import projectsMd from '../../data/cli/projects.md?raw';
 import matter from 'gray-matter';
 import ProjectDetailModal from './ProjectDetailModal';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 interface Project {
   title: string;
@@ -39,15 +41,17 @@ const ProjectCard = ({ project, onClick }: { project: Project; onClick: () => vo
             >
               <Github size={20} />
             </a>
-            <a 
-              href={project.live} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="hover:text-terminal-green"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <ExternalLink size={20} />
-            </a>
+            {project.live && (
+              <a 
+                href={project.live} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="hover:text-terminal-green"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <ExternalLink size={20} />
+              </a>
+            )}
           </div>
         </div>
         
@@ -72,6 +76,9 @@ const Projects: React.FC = () => {
   const data = parsed.data || {};
   const projects: Project[] = data.projects || [];
   
+  const flagship = projects.find(p => p.title === 'RedSentinel');
+  const remainingProjects = projects.filter(p => p.title !== 'RedSentinel');
+
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -98,13 +105,68 @@ const Projects: React.FC = () => {
           <div className="flex items-center gap-2 text-terminal-green">
             <span className="text-terminal-amber">➜</span>
             <span className="font-bold">~</span>
-            <span className="opacity-75">./projects</span>
+            <span className="opacity-75">cd projects</span>
           </div>
           <span className="h-px bg-terminal-border flex-1" />
         </motion.h2>
 
+        {flagship && (
+          <motion.div variants={fadeInUp} className="mb-16 border border-terminal-green rounded-lg bg-terminal-dim/30 overflow-hidden relative">
+            <div className="absolute -top-10 -right-10 p-4 opacity-5 text-terminal-green pointer-events-none">
+              <Star size={250} />
+            </div>
+            <div className="p-8 relative z-10">
+              <div className="flex items-center gap-2 text-terminal-amber mb-2">
+                <Star size={16} fill="currentColor" />
+                <span className="font-mono text-sm tracking-widest uppercase font-bold">Flagship Project</span>
+              </div>
+              <h3 className="text-4xl font-bold text-terminal-green mb-6">{flagship.title}</h3>
+              
+              <div className="prose prose-invert max-w-none font-mono mb-8">
+                <ReactMarkdown 
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    p: ({ children }) => <p className="text-gray-300 leading-relaxed mb-4">{children}</p>,
+                    ul: ({ children }) => <ul className="list-disc list-inside space-y-2 mb-4 text-gray-400">{children}</ul>,
+                    li: ({ children }) => <li className="hover:text-terminal-green transition-colors">{children}</li>,
+                    strong: ({ children }) => <strong className="text-terminal-amber font-semibold">{children}</strong>,
+                  }}
+                >
+                  {flagship.detail || flagship.description}
+                </ReactMarkdown>
+              </div>
+
+              <div className="flex flex-wrap gap-2 mb-8">
+                {flagship.tech.map(t => (
+                  <span key={t} className="px-3 py-1 bg-terminal-black border border-terminal-green/30 rounded text-terminal-green text-sm font-medium">
+                    {t}
+                  </span>
+                ))}
+              </div>
+
+              <div className="flex gap-4">
+                <a href={flagship.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-6 py-3 bg-terminal-green text-terminal-black font-bold rounded hover:bg-green-400 transition-colors">
+                  <Github size={20} /> Source Code
+                </a>
+                {flagship.live && (
+                  <a href={flagship.live} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-6 py-3 border border-terminal-border text-gray-300 hover:text-terminal-green hover:border-terminal-green rounded transition-colors">
+                    <ExternalLink size={20} /> Live Demo
+                  </a>
+                )}
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {remainingProjects.length > 0 && (
+          <motion.h3 variants={fadeInUp} className="text-xl font-bold text-gray-400 mb-8 flex items-center gap-4">
+            <span className="text-terminal-border">ls -la ./other_projects</span>
+            <span className="h-px bg-terminal-border/30 flex-1" />
+          </motion.h3>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project, index) => (
+          {remainingProjects.map((project, index) => (
             <ProjectCard 
               key={index} 
               project={project} 
