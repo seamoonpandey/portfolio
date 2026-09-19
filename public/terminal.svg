@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" rx="20" fill="#0c0c0c"/>
+  <!-- ">" symbol -->
+  <path d="M 20 25 L 50 50 L 20 75" fill="none" stroke="#4af626" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- "_" symbol -->
+  <rect x="55" y="65" width="25" height="12" fill="#4af626" rx="2"/>
+</svg>
