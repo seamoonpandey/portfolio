@@ -2,8 +2,10 @@
 
 A sleek, interactive, terminal-themed portfolio built with **React**, **TypeScript**, and **Framer Motion**. It features both a modern graphical user interface and a fully functional interactive CLI (Virtual File System) to explore projects, skills, and contact info in an authentic developer environment.
 
-![Portfolio GUI](https://via.placeholder.com/800x450.png?text=GUI+View) <!-- Add your screenshot here -->
-![Portfolio CLI](https://via.placeholder.com/800x450.png?text=CLI+View) <!-- Add your screenshot here -->
+<img width="1920" height="924" alt="image" src="https://github.com/user-attachments/assets/a6bd00ca-05b0-4c01-a6df-4c59329e1b46" />
+
+<img width="1920" height="914" alt="image" src="https://github.com/user-attachments/assets/fec43cb3-6435-48c7-86be-efff4eee1808" />
+
 
 ## 🚀 Features
 
